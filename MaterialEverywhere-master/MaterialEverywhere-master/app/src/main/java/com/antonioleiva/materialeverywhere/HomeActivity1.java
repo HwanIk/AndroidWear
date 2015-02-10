@@ -33,7 +33,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity1 extends BaseActivity {
 
     private DrawerLayout drawer;
 
@@ -48,7 +48,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String url = (String) view.getTag();
-                DetailActivity.launch(HomeActivity.this, view.findViewById(R.id.image), url);
+                DetailActivity.launch(HomeActivity1.this, view.findViewById(R.id.image), url);
 
             }
         });
@@ -86,9 +86,9 @@ public class HomeActivity extends BaseActivity {
 
         @Override public Object getItem(int i) {
             String step []={
-                    "김치는 작게 썬다.",
-                    "양파는 굵게 다진다.",
-                    "양념장을 고루 섞는다."
+                    "중간불로 달군 팬에 식용유(2)와 참기름(0.5)를 두른다.",
+                    "김치를 넣고 부드러워질 때까지 볶는다",
+                    "양파를 넣어 조금 더 볶는다"
             };
             return String.valueOf(i + 1)+" step : " + step[i];
         }
@@ -104,9 +104,9 @@ public class HomeActivity extends BaseActivity {
                         .inflate(R.layout.grid_item, viewGroup, false);
             }
             String img_url[]= {
-                    "http://postfiles8.naver.net/20150210_263/rlaghksdlr_1423539779151EfH9d_PNG/c_1.png?type=w3",
-                    "http://postfiles7.naver.net/20150210_22/rlaghksdlr_1423539779508hFXr3_PNG/c_2.png?type=w3",
-                    "http://postfiles2.naver.net/20150210_257/rlaghksdlr_1423539780485FNQxI_PNG/c_3.png?type=w3",
+                    "http://postfiles14.naver.net/20150210_221/rlaghksdlr_1423539781002i3nK4_PNG/c_4.png?type=w3",
+                    "http://postfiles5.naver.net/20150210_148/rlaghksdlr_1423539781523jo87u_PNG/c_5.png?type=w3",
+                    "http://postfiles8.naver.net/20150210_151/rlaghksdlr_1423539781938bJnjJ_PNG/c_6.png?type=w3",
             };
             //String imageUrl = "http://lorempixel.com/800/600/sports/" + String.valueOf(i + 1);
             view.setTag(img_url[i]);
