@@ -3,6 +3,8 @@ package com.antonioleiva.materialeverywhere;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -15,9 +17,10 @@ import android.widget.Chronometer;
 
 
 public class MenuChoice extends ActionBarActivity {
-
+    //Notification ID
     static final int RECIPE_NOTIFICATION_ID=1;
     static final int ACTION_NOTIFICATION_ID=2;
+    //리소스로부터 사진을 가져온
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +52,17 @@ public class MenuChoice extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     public void menu1(View view) {
+        //리소스부터 그림파일을 가져온다.
+        Bitmap background1=BitmapFactory.decodeResource(getResources(),R.drawable.c_1);
+
+        //최초 액티비티 실
         Intent intent=new Intent(this,HomeActivity.class);
         startActivity(intent);
 
         //두번째 액티비티로 이동하는 과정
         Intent intent1=new Intent(this,HomeActivity1.class);
         PendingIntent viewPendingIntent=PendingIntent.getActivity(this, ACTION_NOTIFICATION_ID, intent1, 0);
+
 
         NotificationCompat.WearableExtender secondWearableExtender=
                 new NotificationCompat.WearableExtender()
@@ -87,11 +95,13 @@ public class MenuChoice extends ActionBarActivity {
         //두번째, 세번째 페이지를 추가한다
         NotificationCompat.WearableExtender wearableOptions=
                 new NotificationCompat.WearableExtender()
+                    .setBackground(background1)
                     .setContentIcon(R.drawable.ic_launcher)
                     .setContentIconGravity(Gravity.CENTER)
                     .addPage(secondPage)
                     .addPage(thirdPage)
-                    .addPage(fourthPage);
+                    .addPage(fourthPage)
+                    .setHintHideIcon(true);
 
         //웨어러블 옵션 적용한 알림을 생성
         Notification notification=new NotificationCompat.Builder(this)
@@ -103,10 +113,11 @@ public class MenuChoice extends ActionBarActivity {
                 .addAction(R.drawable.ic_launcher,"NextStep",viewPendingIntent)
                 .setAutoCancel(true)
                 .build();
-        //시간체크하는 함수
 
         //알림 매니저 객체를 생성하고 실행한다.
         NotificationManagerCompat.from(this).notify(RECIPE_NOTIFICATION_ID,notification);
+
+        //NotificationManagerCompat.from(this).cancel("cancel",RECIPE_NOTIFICATION_ID);
 
     }
 }

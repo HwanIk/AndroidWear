@@ -16,7 +16,9 @@
 
 package com.antonioleiva.materialeverywhere;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,13 +31,37 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.logging.Handler;
 
 
 public class HomeActivity extends BaseActivity {
 
     private DrawerLayout drawer;
+
+    @Override
+    public void onNewIntent(Intent i)
+    {
+        CountDownTimer mCountDown = null;
+
+        mCountDown = new CountDownTimer(10000,1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onFinish() {
+                // TODO Auto-generated method stub
+
+            }
+        }.start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
