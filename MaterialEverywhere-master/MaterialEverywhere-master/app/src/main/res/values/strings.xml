@@ -17,10 +17,13 @@
 <resources>
 
     <string name="app_name">Material Everywhere</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Hello World!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_my">Details</string>
     <string name="title_activity_menu_choice">MenuChoice</string>
     <string name="title_activity_home_activity1">HomeActivity1</string>
+    <string name="title_activity_sign_up">signUp</string>
+    <string name="title_activity_welcome">welcome</string>
+    <string name="facebook_app_id">1614852582059503</string>
 
 </resources>

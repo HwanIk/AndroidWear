@@ -15,6 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
 
+import com.parse.Parse;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
+
+import java.text.ParseException;
+
 
 public class MenuChoice extends ActionBarActivity {
     //Notification ID
