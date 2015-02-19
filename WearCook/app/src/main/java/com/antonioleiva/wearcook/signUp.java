@@ -1,7 +1,9 @@
 package com.antonioleiva.wearcook;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +14,9 @@ import android.widget.Toast;
 import java.text.ParseException;
 
 import com.facebook.AppEventsLogger;
+import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -21,6 +25,8 @@ public class signUp extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");//parse와 페이스북 연동작업 초기화
+
     }
 
     @Override
@@ -28,22 +34,6 @@ public class signUp extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_sign_up, menu);
         return true;
-    }
-
-    //페이스북 로그인과 관련된 함수. 자세한 설명은 나중에 공부해서 적겠다.
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
@@ -61,9 +51,16 @@ public class signUp extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //사용자 기기에 Facebook 앱이 설치되어 있지 않은 경우 기본 대화상자 기반 인증을 하는 함수. 이 기능을 SSO(Single-Sign On)이라고 한다.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+    }
+    //Parse 사용자에서 Facebook을 사용하는 방법은 기본적으로 (1) Facebook 사용자로 로그인하고 ParseUser 만들기 또는
+    //                                             (2) Facebook을 기존 ParseUser에 연결하는 두 가지
     //Parse에 사용자를 가입시키는 버튼
     public void signUpBtn(View view) {
-        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
         EditText editId = (EditText)findViewById(R.id.userId);
         String id = editId.getText().toString();
@@ -93,10 +90,26 @@ public class signUp extends ActionBarActivity {
                     // to figure out what went wrong
                 }
             }
-
             @Override
             public void done(com.parse.ParseException e) {
 
+            }
+        });
+    }
+
+    public void sign_in_Facebook(View view) {
+
+
+        ParseFacebookUtils.logIn(this,new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, com.parse.ParseException e) {
+                if (parseUser == null) {
+                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                } else if (parseUser.isNew()) {
+                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                } else {
+                    Log.d("MyApp", "User logged in through Facebook!");
+                }
             }
         });
     }
