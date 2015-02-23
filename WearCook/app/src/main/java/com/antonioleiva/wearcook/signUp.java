@@ -26,9 +26,14 @@ public class signUp extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");//parse와 페이스북 연동작업 초기화
-
+        ParseFacebookUtils.initialize("280129358777995");
     }
-
+    //사용자 기기에 Facebook 앱이 설치되어 있지 않은 경우 기본 대화상자 기반 인증을 하는 함수. 이 기능을 SSO(Single-Sign On)이라고 한다.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -51,14 +56,9 @@ public class signUp extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //사용자 기기에 Facebook 앱이 설치되어 있지 않은 경우 기본 대화상자 기반 인증을 하는 함수. 이 기능을 SSO(Single-Sign On)이라고 한다.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
-    }
+
     //Parse 사용자에서 Facebook을 사용하는 방법은 기본적으로 (1) Facebook 사용자로 로그인하고 ParseUser 만들기 또는
-    //                                             (2) Facebook을 기존 ParseUser에 연결하는 두 가지
+    //                                            (2) Facebook을 기존 ParseUser에 연결하는 두 가지
     //Parse에 사용자를 가입시키는 버튼
     public void signUpBtn(View view) {
 
@@ -98,8 +98,6 @@ public class signUp extends ActionBarActivity {
     }
 
     public void sign_in_Facebook(View view) {
-
-
         ParseFacebookUtils.logIn(this,new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, com.parse.ParseException e) {

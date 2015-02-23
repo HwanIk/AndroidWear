@@ -24,6 +24,8 @@
     <string name="title_activity_home_activity1">HomeActivity1</string>
     <string name="title_activity_sign_up">signUp</string>
     <string name="title_activity_welcome">welcome</string>
-    <string name="facebook_app_id">1590173424551988</string>
+    <string name="facebook_app_id">280129358777995</string>
+    <string name="title_activity_camera_view_app">CameraViewAppActivity</string>
+    <string name="title_activity_main_fragment">MainFragment</string>
 
 </resources>
