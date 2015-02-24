@@ -65,7 +65,7 @@
             android:label="@string/title_activity_sign_up" >
         </activity>
         <activity
-            android:name=".welcome"
+            android:name="com.antonioleiva.wearcook.welcome"
             android:label="@string/title_activity_welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

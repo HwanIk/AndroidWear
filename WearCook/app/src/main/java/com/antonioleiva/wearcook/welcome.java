@@ -151,8 +151,6 @@ public class welcome extends FragmentActivity {
     private void usernameOrPasswordIsInvalid() {
         Toast.makeText(this,"아이디나 비밀번호가 틀렸습니다",Toast.LENGTH_SHORT);
     }
-
-
     public void sign_up(View view) {
         Intent intent=new Intent(this,signUp.class);
         startActivity(intent);
