@@ -34,7 +34,9 @@ android {
         }
     }
 }
-repositories{mavenCentral()}
+repositories{
+    mavenCentral()
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -43,4 +45,6 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    compile group: project.KAKAO_SDK_GROUP, name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+
 }

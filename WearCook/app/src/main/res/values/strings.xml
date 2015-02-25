@@ -26,4 +26,5 @@
     <string name="facebook_app_id">461714007312357</string>
     <string name="title_activity_camera_view_app">CameraViewAppActivity</string>
     <string name="title_activity_main_fragment">MainFragment</string>
+    <string name="kakao_app_key">e72878b9ccc2660d475a65cf996f251a</string>
 </resources>

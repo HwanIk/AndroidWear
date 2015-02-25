@@ -2,14 +2,9 @@ package com.antonioleiva.wearcook;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -20,16 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.File;
-import java.util.List;
-
 
 public class MenuChoice extends ActionBarActivity {
     //Notification ID
     static final int RECIPE_NOTIFICATION_ID=1;
     static final int ACTION_NOTIFICATION_ID=2;
-    //리소스로부터 사진을 가져온
-    private final static int ACT_TAKE_PHOTO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,4 +119,9 @@ public class MenuChoice extends ActionBarActivity {
 
     }
 
+    public void camera(View view) {
+        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

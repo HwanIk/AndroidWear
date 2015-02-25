@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Session;
-import com.facebook.AppEventsLogger;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
@@ -21,16 +20,19 @@ import com.facebook.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 import java.util.Arrays;
 
-
 public class welcome extends FragmentActivity {
+    //페이스북 로그인 관련
     private LoginButton loginBtn;
     private TextView check_login;
     private UiLifecycleHelper uiHelper;
+    //카카오톡 로그인 관련
+
+    public welcome() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class welcome extends FragmentActivity {
                          Exception exception) {
             if (state.isOpened()) {
                 Log.d("MainActivity", "Facebook session opened.");
+                loginSuccessful();
+                finish();
             } else if (state.isClosed()) {
                 Log.d("MainActivity", "Facebook session closed.");
             }
