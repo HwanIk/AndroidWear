@@ -1,8 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    repositories {
-        jcenter()
+    repositories { //저장
+        jcenter() //라이브러리를 모아논 저장소이다.
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.1'
