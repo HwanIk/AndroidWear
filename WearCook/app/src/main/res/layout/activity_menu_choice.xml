@@ -36,12 +36,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="load_image"/>
+    <Button
+        android:id="@+id/imageTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="multiple_image"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/image"
-            android:layout_width="200dp"
-            android:layout_height="200dp" />
+            android:id="@+id/image_0"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <ImageView
+            android:id="@+id/image_1"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <ImageView
+            android:id="@+id/image_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
     </LinearLayout>
 </LinearLayout>
