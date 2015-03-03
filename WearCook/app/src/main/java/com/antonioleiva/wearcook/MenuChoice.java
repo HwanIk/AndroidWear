@@ -45,11 +45,9 @@ public class MenuChoice extends ActionBarActivity {
     static final int ACTION_NOTIFICATION_ID=2;
     final int REQ_CODE_SELECT_IMAGE=100; //이미지 로드 버튼을 구분하기 위한 상수
 
-    //이미지 로더를 사용해서 여러가지 이미지 출력해보기
-    ImageView ad1,ad2,ad3;
+    //서버로부터 받은 다수 이미지를 출력하기 위한 변수들
     List<ParseObject> ob;
     private ImageView imgs[] = new ImageView[3];
-
     static String imgUrl;
 
 
@@ -57,14 +55,12 @@ public class MenuChoice extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_choice);
+        //Parse에서 부여한 고유의 key 값, Application Id, Clieny Key 값
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
-        ad1=(ImageView) findViewById(R.id.image_0);
-        ad2=(ImageView) findViewById(R.id.image_1);
-        ad3=(ImageView) findViewById(R.id.image_2);
-        imgs[0] = ad1;
-        imgs[1] = ad2;
-        imgs[2] = ad3;
+        imgs[0] = (ImageView) findViewById(R.id.image_0);
+        imgs[1] = (ImageView) findViewById(R.id.image_1);
+        imgs[2] = (ImageView) findViewById(R.id.image_2);
 
         imgUrl="";
         /*

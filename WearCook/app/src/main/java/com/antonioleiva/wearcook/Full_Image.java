@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
-
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 
@@ -17,7 +15,8 @@ public class Full_Image extends ActionBarActivity {
     static String imgUrl;
     ImageView full_img;
 
-    PhotoViewAttacher mAttacher;
+    PhotoViewAttacher mAttacher; //PhotoView Library - Zoom In/Out 기능
+    // build.gradle(app)에 다음을 추가해야한다. compile 'com.github.chrisbanes.photoview:library:1.2.3'
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +27,13 @@ public class Full_Image extends ActionBarActivity {
         imgUrl=intent.getExtras().getString("imgUrl");
         full_img=(ImageView)findViewById(R.id.full_image);
 
-        Picasso.with(this)
+        Picasso.with(this)   //피카소 클래스를 이용하여 이미지 URL을 view에 출력한다.
                 .load(imgUrl)
                 .into(full_img);
 
-        mAttacher=new PhotoViewAttacher(full_img);
+        mAttacher=new PhotoViewAttacher(full_img); //zoom in/out
     }
-    
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
