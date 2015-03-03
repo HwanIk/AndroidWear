@@ -82,17 +82,13 @@ public class signUp extends ActionBarActivity {
         //user.put("phone", "1234-555-0000");
 
         user.signUpInBackground(new SignUpCallback() {
-            public void done(ParseException e) {
+            public void done(com.parse.ParseException e) {
                 if (e == null) {
                     // Hooray! Let them use the app now.
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                 }
-            }
-            @Override
-            public void done(com.parse.ParseException e) {
-
             }
         });
     }

@@ -43,19 +43,15 @@ public class HomeActivity extends BaseActivity {
     public void onNewIntent(Intent i)
     {
         CountDownTimer mCountDown = null;
-
         mCountDown = new CountDownTimer(10000,1000) {
-
             @Override
             public void onTick(long millisUntilFinished) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
             public void onFinish() {
                 // TODO Auto-generated method stub
-
             }
         }.start();
     }

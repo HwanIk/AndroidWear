@@ -9,11 +9,16 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class Full_Image extends ActionBarActivity {
 
     static String imgUrl;
     ImageView full_img;
+
+    PhotoViewAttacher mAttacher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +31,10 @@ public class Full_Image extends ActionBarActivity {
         Picasso.with(this)
                 .load(imgUrl)
                 .into(full_img);
-    }
 
+        mAttacher=new PhotoViewAttacher(full_img);
+    }
+    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
