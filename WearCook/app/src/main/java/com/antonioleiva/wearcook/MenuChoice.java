@@ -48,10 +48,10 @@ public class MenuChoice extends ActionBarActivity {
     //이미지 로더를 사용해서 여러가지 이미지 출력해보기
     ImageView ad1,ad2,ad3;
     List<ParseObject> ob;
-
     private ImageView imgs[] = new ImageView[3];
 
-    HorizontalScrollView horizontalScrollView1;
+    static String imgUrl;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class MenuChoice extends ActionBarActivity {
         imgs[1] = ad2;
         imgs[2] = ad3;
 
+        imgUrl="";
         /*
         for (int i = 0; i < 3; i++) {
             imgs[i] = (ImageView) findViewById(R.id.image + i);
@@ -258,13 +259,20 @@ public class MenuChoice extends ActionBarActivity {
         for (ParseObject upload_img : ob) {
 
             ParseFile image = (ParseFile) upload_img.get("FileName");
+            imgUrl=image.getUrl();
 
             Picasso.with(view.getContext())
-                    .load(image.getUrl())
+                    .load(imgUrl)
                     .into(imgs[i]);
             i=i+1;
             //System.out.println("the urls are"+image.getUrl());
         }
 
+    }
+
+    public void full_image(View view) {
+        Intent intent=new Intent(this,Full_Image.class);
+        intent.putExtra("imgUrl",imgUrl);
+        startActivity(intent);
     }
 }

@@ -32,12 +32,13 @@
         android:onClick="camera"/>
     <Button
         android:id="@+id/loadImage"
-        android:text="이미지 호출"
+        android:text="이미지 업로드"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="load_image"/>
     <Button
         android:id="@+id/imageTest"
+        android:text="이미지 호출"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="multiple_image"/>
@@ -47,7 +48,8 @@
         <ImageView
             android:id="@+id/image_0"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:onClick="full_image"/>
         <ImageView
             android:id="@+id/image_1"
             android:layout_width="100dp"

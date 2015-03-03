@@ -23,23 +23,22 @@
 
     <!-- 로컬 카메라 앱 접근 허용 -->
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- 사진을 찍고 외부저장소에 저장하기 위한 권한 요청 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Facebook 연동하기 위한 허가 부분 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name" >
@@ -66,7 +65,7 @@
             android:label="@string/title_activity_sign_up" >
         </activity>
         <activity
-            android:name="com.antonioleiva.wearcook.welcome"
+            android:name=".welcome"
             android:label="@string/title_activity_welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,14 +75,20 @@
         </activity>
 
         <!-- Facebook 앱 키를 등록록 -->
-       <meta-data
+        <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity android:name="com.facebook.LoginActivity" />
-        <!-- 카카오 앱 키를 등록-->
+        <!-- 카카오 앱 키를 등록 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+
+        <activity
+            android:name=".Full_Image"
+            android:label="@string/title_activity_full__image" >
+        </activity>
     </application>
 
 </manifest>

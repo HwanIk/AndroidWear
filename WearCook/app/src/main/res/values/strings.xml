@@ -15,6 +15,7 @@
   ~ limitations under the License.
 -->
 <resources>
+
     <string name="app_name">Material Everywhere</string>
     <string name="hello_world">Hello World!</string>
     <string name="action_settings">Settings</string>
@@ -27,4 +28,6 @@
     <string name="title_activity_camera_view_app">CameraViewAppActivity</string>
     <string name="title_activity_main_fragment">MainFragment</string>
     <string name="kakao_app_key">e72878b9ccc2660d475a65cf996f251a</string>
+    <string name="title_activity_full__image">Full_Image</string>
+
 </resources>
