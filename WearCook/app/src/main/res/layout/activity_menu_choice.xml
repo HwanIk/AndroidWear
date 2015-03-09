@@ -59,5 +59,10 @@
             android:layout_width="100dp"
             android:layout_height="100dp" />
     </LinearLayout>
+    <Button
+        android:text="logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="logout_btn"/>
 
 </LinearLayout>

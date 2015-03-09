@@ -3,7 +3,6 @@ package com.antonioleiva.wearcook;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,23 +17,19 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.imageloader.ImageLoader;
 import com.parse.Parse;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -201,9 +196,9 @@ public class MenuChoice extends ActionBarActivity {
 
                     //이미지 데이터를 비트맵으로 받아온다.
                     Bitmap image_bitmap 	= MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    ImageView image = (ImageView)findViewById(R.id.image);
+                    //ImageView image = (ImageView)findViewById(R.id.image);
                     //배치해놓은 ImageView에 set
-                    image.setImageBitmap(image_bitmap);
+                    //image.setImageBitmap(image_bitmap);
                     Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
 
                     //parse에 이미지 업로드 시키기, 이미지 파일을 byte형태로 변환
@@ -218,7 +213,8 @@ public class MenuChoice extends ActionBarActivity {
                     ParseObject imageApplication = new ParseObject("ImageSaveLoad"); //parse에 만들어진 해당 클래스로 데이터를 업로드한다.
                     imageApplication.put("imagename", name_Str);
                     imageApplication.put("FileName", Imagefile);
-                    imageApplication.saveInBackground();
+                    //imageApplication.put("열이름",데이터 벨류");
+                    imageApplication.saveInBackground(); //Parse Cloud에 데이터를 저장하는 함수
 
                     Toast.makeText(this,"이미지 업로드 완료",Toast.LENGTH_SHORT).show();
 
@@ -236,6 +232,7 @@ public class MenuChoice extends ActionBarActivity {
             }
         }
     }
+
     //주의!!!!!!!! 에러 : 이미지뷰의 배열의 수와 parse에 업로드 된 수의 싱크를 잘 맞춰야한다.
     public void multiple_image(View view) {
         int i=0;
@@ -261,6 +258,8 @@ public class MenuChoice extends ActionBarActivity {
                     .load(imgUrl)
                     .into(imgs[i]);
             i=i+1;
+            if(i<3)
+                break;
             //System.out.println("the urls are"+image.getUrl());
         }
 
@@ -270,5 +269,12 @@ public class MenuChoice extends ActionBarActivity {
         Intent intent=new Intent(this,Full_Image.class);
         intent.putExtra("imgUrl",imgUrl);
         startActivity(intent);
+    }
+
+    public void logout_btn(View view) {
+        ParseUser.logOut();
+        Intent intent=new Intent(this,welcome.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -19,6 +19,7 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.Parse;
+import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -29,16 +30,23 @@ public class welcome extends FragmentActivity {
     private LoginButton loginBtn;
     private TextView check_login;
     private UiLifecycleHelper uiHelper;
-    //카카오톡 로그인 관련
 
-    public welcome() {
-    }
+    EditText userName;
+    EditText password;
+    String userNameTxt;
+    String passwordTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_welcome);
+
+
+
+        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
+        userName=(EditText)findViewById(R.id.logUserName);
+        password=(EditText)findViewById(R.id.logPassword);
+
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
@@ -85,6 +93,7 @@ public class welcome extends FragmentActivity {
         super.onDestroy();
         uiHelper.onDestroy();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -118,25 +127,19 @@ public class welcome extends FragmentActivity {
 
     //Sign_in버튼을 눌렀을 때 실행하는 함수로 유효한 id,pwd를 입력했을 때 다음 스텝으로 넘어간다.
     public void sign_in(View view) throws com.parse.ParseException {
-        Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
         //사용자가 입력한 id와 pwd 값을 받아온다.
-        EditText write_userId=(EditText)findViewById(R.id.userId);
-        String id=write_userId.getText().toString();
-
-        EditText write_userPwd=(EditText)findViewById(R.id.userPwd);
-        String pwd=write_userPwd.getText().toString();
+        userNameTxt=userName.getText().toString();
+        passwordTxt=password.getText().toString();
 
         ParseUser user = new ParseUser();
         //로그인을 제어하는 함수
-        user.logInInBackground(id,pwd,new LogInCallback() {
+        user.logInInBackground(userNameTxt,passwordTxt,new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null && parseUser != null) {
                     loginSuccessful();
-                } else if (parseUser == null) {
-                    usernameOrPasswordIsInvalid();
                 } else {
-                    somethingWentWrong();
+                    Toast.makeText(getApplicationContext(),"아이디가 존재하지 않습니다. 회원가입 버튼을 눌러주세요",Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -147,16 +150,9 @@ public class welcome extends FragmentActivity {
         Intent intent=new Intent(this,MenuChoice.class);
         startActivity(intent);
     }
-    //예기치 않는 에러가 발생시 호출되는 함
-    private void somethingWentWrong() {
-        Toast.makeText(this,"예기치 않는 에러가 발생했습니다",Toast.LENGTH_SHORT);
-    }
-    //유효하지 않은 id나 password가 입력됐을 경우 호출되는 함수이다.
-    private void usernameOrPasswordIsInvalid() {
-        Toast.makeText(this,"아이디나 비밀번호가 틀렸습니다",Toast.LENGTH_SHORT);
-    }
     public void sign_up(View view) {
         Intent intent=new Intent(this,signUp.class);
         startActivity(intent);
+        finish();
     }
 }

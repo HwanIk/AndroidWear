@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="kakao_app_key">cbc4438236363a3ac53e76071e4e979c</string>
+    <string name="gcm_project_number">761502242117</string>
+</resources>

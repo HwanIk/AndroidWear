@@ -68,7 +68,6 @@ public class HomeActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String url = (String) view.getTag();
                 DetailActivity.launch(HomeActivity.this, view.findViewById(R.id.image), url);
-
             }
         });
 

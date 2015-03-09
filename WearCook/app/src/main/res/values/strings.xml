@@ -29,5 +29,7 @@
     <string name="title_activity_main_fragment">MainFragment</string>
     <string name="kakao_app_key">e72878b9ccc2660d475a65cf996f251a</string>
     <string name="title_activity_full__image">Full_Image</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_parse_application">ParseApplication</string>
 
 </resources>

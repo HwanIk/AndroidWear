@@ -11,20 +11,15 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/userId"
+        android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="UserId"/>
+        android:hint="Username"/>
     <EditText
-        android:id="@+id/userPwd"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"/>
-    <EditText
-        android:id="@+id/userEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="e-mail"/>
     <Button
         android:text="sign up"
         android:layout_width="wrap_content"

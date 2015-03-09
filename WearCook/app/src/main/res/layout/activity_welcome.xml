@@ -10,12 +10,12 @@
     tools:context="com.antonioleiva.wearcook.welcome"
     android:orientation="vertical">
     <EditText
-        android:id="@+id/userId"
+        android:id="@+id/logUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="UserId"/>
     <EditText
-        android:id="@+id/userPwd"
+        android:id="@+id/logPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="password"/>
