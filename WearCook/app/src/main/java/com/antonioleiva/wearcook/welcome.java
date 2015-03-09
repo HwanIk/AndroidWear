@@ -2,7 +2,6 @@ package com.antonioleiva.wearcook;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +18,6 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.Parse;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -41,11 +39,7 @@ public class welcome extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-
-
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
-        userName=(EditText)findViewById(R.id.logUserName);
-        password=(EditText)findViewById(R.id.logPassword);
 
         uiHelper = new UiLifecycleHelper(this, statusCallback);
         uiHelper.onCreate(savedInstanceState);
@@ -65,6 +59,7 @@ public class welcome extends FragmentActivity {
 
         });
     }
+
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
         @Override
         public void call(Session session, SessionState state,
@@ -127,6 +122,8 @@ public class welcome extends FragmentActivity {
 
     //Sign_in버튼을 눌렀을 때 실행하는 함수로 유효한 id,pwd를 입력했을 때 다음 스텝으로 넘어간다.
     public void sign_in(View view) throws com.parse.ParseException {
+        userName=(EditText)findViewById(R.id.logUserName);
+        password=(EditText)findViewById(R.id.logPassword);
         //사용자가 입력한 id와 pwd 값을 받아온다.
         userNameTxt=userName.getText().toString();
         passwordTxt=password.getText().toString();
@@ -136,8 +133,9 @@ public class welcome extends FragmentActivity {
         user.logInInBackground(userNameTxt,passwordTxt,new LogInCallback() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
-                if (e == null && parseUser != null) {
+                if (parseUser != null) {
                     loginSuccessful();
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),"아이디가 존재하지 않습니다. 회원가입 버튼을 눌러주세요",Toast.LENGTH_LONG).show();
                 }
