@@ -8,27 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
-import java.util.Arrays;
 
 public class welcome extends FragmentActivity {
-    //페이스북 로그인 관련
-    private LoginButton loginBtn;
-    private TextView check_login;
-    private UiLifecycleHelper uiHelper;
-
+    //로그인에 관련된 변수들
     EditText userName;
     EditText password;
     String userNameTxt;
@@ -39,67 +29,10 @@ public class welcome extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        //Parse 앱 초기화, (Appication ID, Client Key)
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
-        uiHelper = new UiLifecycleHelper(this, statusCallback);
-        uiHelper.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        check_login = (TextView) findViewById(R.id.check_login);
-        loginBtn = (LoginButton) findViewById(R.id.authButton);
-        loginBtn.setReadPermissions(Arrays.asList("email"));
-        loginBtn.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
-            @Override
-            public void onUserInfoFetched(GraphUser user) {
-                if (user != null) {
-                    check_login.setText("You are currently logged in as " + user.getName());
-                } else {
-                    check_login.setText("You are not logged in.");
-                }
-            }
-
-        });
     }
-
-    private Session.StatusCallback statusCallback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state,
-                         Exception exception) {
-            if (state.isOpened()) {
-                Log.d("MainActivity", "Facebook session opened.");
-                loginSuccessful();
-                finish();
-            } else if (state.isClosed()) {
-                Log.d("MainActivity", "Facebook session closed.");
-            }
-        }
-    };
-    @Override
-    public void onResume() {
-        super.onResume();
-        uiHelper.onResume();
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        uiHelper.onPause();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        uiHelper.onDestroy();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data);
-    }
-    @Override
-    public void onSaveInstanceState(Bundle savedState) {
-        super.onSaveInstanceState(savedState);
-        uiHelper.onSaveInstanceState(savedState);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -120,8 +53,16 @@ public class welcome extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //Sign_in버튼을 눌렀을 때 실행하는 함수로 유효한 id,pwd를 입력했을 때 다음 스텝으로 넘어간다.
+    //사용자 기기에 Facebook 앱이 설치되어 있지 않은 경우 기본 대화상자 기반 인증을 하는 함수. 이 기능을 SSO(Single-Sign On)이라고 한다.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+    }
+
+    //로그인 함수
     public void sign_in(View view) throws com.parse.ParseException {
+        //onCreate에서 하지않고 여기서 한 이유는 다른 액티비티를 갔다 왔을 경우 입력된 값을 제대로 찾지 못하기 때문이다.
         userName=(EditText)findViewById(R.id.logUserName);
         password=(EditText)findViewById(R.id.logPassword);
         //사용자가 입력한 id와 pwd 값을 받아온다.
@@ -134,23 +75,42 @@ public class welcome extends FragmentActivity {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 if (parseUser != null) {
-                    loginSuccessful();
+                    loginSuccessful(); //메인 액티비티로 이동
                     finish();
-                } else {
-                    Toast.makeText(getApplicationContext(),"아이디가 존재하지 않습니다. 회원가입 버튼을 눌러주세요",Toast.LENGTH_LONG).show();
+                } else { //parseUser가 Null일 경우, 자세히 분류하지는 않았지만 아이디가 일치하지 않는 경우인 것 같다
+                    Toast.makeText(getApplicationContext(),"아이디와 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
                 }
             }
 
         });
     }
+
     //ParseUser에 저장되어 있는 id,pwd 값과 유저가 입력한 값이 같을 경우 호출되는 함수, 다음 MenuChoice 액티비티로 넘어간다.
     private void loginSuccessful() {
         Intent intent=new Intent(this,MenuChoice.class);
         startActivity(intent);
     }
+    //회원가입으로 이동하는 함수
     public void sign_up(View view) {
         Intent intent=new Intent(this,signUp.class);
         startActivity(intent);
-        finish();
+    }
+    //facebook으로 가입하기, 로그인하기 둘다 제어한다.
+    public void login_facebook(View view) {
+        ParseFacebookUtils.logIn(this, new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, com.parse.ParseException e) {
+                if (parseUser == null) {
+                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                } else if (parseUser.isNew()) {
+                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                } else {
+                    Log.d("MyApp", "User logged in through Facebook!");
+                    Toast.makeText(getApplicationContext(), "회원가입이 완료되었습니다", Toast.LENGTH_SHORT);
+                    loginSuccessful();
+                    finish();
+                }
+            }
+        });
     }
 }

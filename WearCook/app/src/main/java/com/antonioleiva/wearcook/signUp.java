@@ -32,19 +32,13 @@ public class signUp extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        //회원가입할 아이디,비밀번호를 받는 변수 초기화
         userName=(EditText)findViewById(R.id.userName);
         password=(EditText)findViewById(R.id.password);
 
         //Pasre앱에 대한 부분 초기화
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");//parse와 페이스북 연동작업 초기화
         ParseFacebookUtils.initialize("461714007312357");
-    }
-
-    //사용자 기기에 Facebook 앱이 설치되어 있지 않은 경우 기본 대화상자 기반 인증을 하는 함수. 이 기능을 SSO(Single-Sign On)이라고 한다.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
     }
 
     @Override
@@ -67,6 +61,7 @@ public class signUp extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     //Parse 사용자에서 Facebook을 사용하는 방법은 기본적으로 (1) Facebook 사용자로 로그인하고 ParseUser 만들기 또는
     //                                            (2) Facebook을 기존 ParseUser에 연결하는 두 가지
     //Parse에 사용자를 가입시키는 버튼
@@ -75,15 +70,15 @@ public class signUp extends ActionBarActivity {
         userNameTxt= userName.getText().toString();
         passwordTxt= password.getText().toString();
 
+        //아이디와 비밀번호를 제대로 입력하지 않았을 경우
         if (userNameTxt.equals("") || passwordTxt.equals("")) {
             Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 확인해주세요",
                     Toast.LENGTH_LONG).show();
         }else{
-            //PasreUser클래스에 새로운 사용자에 대한 id,pwd,email을 추가한다.
+            //PasreUser클래스에 새로운 사용자에 대한 id,pwd를 추가한다.
             ParseUser user = new ParseUser();
             user.setUsername(userNameTxt);
             user.setPassword(passwordTxt);
-
             user.signUpInBackground(new SignUpCallback() {
                 public void done(com.parse.ParseException e) {
                     if (e == null) {
@@ -101,28 +96,9 @@ public class signUp extends ActionBarActivity {
             });
         }
     }
-
-    public void sign_in_Facebook(View view) {
-        ParseFacebookUtils.logIn(this,new LogInCallback() {
-            @Override
-            public void done(ParseUser parseUser, com.parse.ParseException e) {
-                if (parseUser == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                } else if (parseUser.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
-                } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
-                    Toast.makeText(getApplicationContext(),"회원가입이 완료되었습니다",Toast.LENGTH_SHORT);
-                    loginSuccessful();
-                    finish();
-                }
-            }
-        });
-    }
-
+    //회원가입시 즉각적으로 메인 액티비티로 넘겨준다.
     private void loginSuccessful() {
         Intent intent=new Intent(this,MenuChoice.class);
         startActivity(intent);
     }
-
 }

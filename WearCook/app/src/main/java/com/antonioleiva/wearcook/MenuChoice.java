@@ -45,25 +45,20 @@ public class MenuChoice extends ActionBarActivity {
     private ImageView imgs[] = new ImageView[3];
     static String imgUrl;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_choice);
+
         //Parse에서 부여한 고유의 key 값, Application Id, Clieny Key 값
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
         imgs[0] = (ImageView) findViewById(R.id.image_0);
         imgs[1] = (ImageView) findViewById(R.id.image_1);
         imgs[2] = (ImageView) findViewById(R.id.image_2);
-
         imgUrl="";
-        /*
-        for (int i = 0; i < 3; i++) {
-            imgs[i] = (ImageView) findViewById(R.id.image + i);
-        }*/
 
-
+        Intent intent=getIntent();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,81 +158,16 @@ public class MenuChoice extends ActionBarActivity {
         startActivity(intent);
 
         }
-    //이미지의 경로와 이름을 받아오는 함수
-    public String getImageNameToUri(Uri data) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(data, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 
-        cursor.moveToFirst();
-
-        String imgPath = cursor.getString(column_index);
-        String imgName = imgPath.substring(imgPath.lastIndexOf("/")+1);
-
-        return imgName;
-    }
     //이미지를 불러와서 출력, 서버에 저장하는 함수
-    public void load_image(View view) {
-        //갤러리를 불러오는 과정
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-        intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
+    public void post(View view) {
+        //post액티비티 호출
+        Intent intent=new Intent(this,Post.class);
+        startActivity(intent);
     }
-    //load_image함수에서 갤러리를 호출한 후 그 결과 작업에 따른 반환 값을 onActivityResult에서 가진다.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(getBaseContext(), "resultCode : " + resultCode, Toast.LENGTH_SHORT).show();
-        if(requestCode == REQ_CODE_SELECT_IMAGE){ //해당 작업이 이미지 로드라면
-            if(resultCode== Activity.RESULT_OK){
-                try {
-                    //Uri에서 이미지 이름을 얻어온다.
-                    String name_Str = getImageNameToUri(data.getData());
-
-                    //이미지 데이터를 비트맵으로 받아온다.
-                    Bitmap image_bitmap 	= MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    //ImageView image = (ImageView)findViewById(R.id.image);
-                    //배치해놓은 ImageView에 set
-                    //image.setImageBitmap(image_bitmap);
-                    Toast.makeText(getBaseContext(), "name_Str : "+name_Str , Toast.LENGTH_SHORT).show();
-
-                    //parse에 이미지 업로드 시키기, 이미지 파일을 byte형태로 변환
-                    ByteArrayOutputStream byteArray2 = new ByteArrayOutputStream();
-                    image_bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArray2); //png포맷의 품질을 100(%)으로 byteArray2에 저장.
-                    byte[] image_to_byte = byteArray2.toByteArray();
-
-                    ParseFile Imagefile = new ParseFile(name_Str,image_to_byte);       //(업로드할 파일,byte[])
-
-                    Imagefile.saveInBackground();
-
-                    ParseObject imageApplication = new ParseObject("ImageSaveLoad"); //parse에 만들어진 해당 클래스로 데이터를 업로드한다.
-                    imageApplication.put("imagename", name_Str);
-                    imageApplication.put("FileName", Imagefile);
-                    //imageApplication.put("열이름",데이터 벨류");
-                    imageApplication.saveInBackground(); //Parse Cloud에 데이터를 저장하는 함수
-
-                    Toast.makeText(this,"이미지 업로드 완료",Toast.LENGTH_SHORT).show();
-
-
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     //주의!!!!!!!! 에러 : 이미지뷰의 배열의 수와 parse에 업로드 된 수의 싱크를 잘 맞춰야한다.
     public void multiple_image(View view) {
         int i=0;
-        //imgl=new ImageLoader((java.net.URLStreamHandlerFactory) getApplication());
-        //imgl=new ImageLoader((java.net.URLStreamHandlerFactory) getApplicationContext());
 
         // Locate the class table named "Footer" in Parse.com
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("ImageSaveLoad");
@@ -258,11 +188,10 @@ public class MenuChoice extends ActionBarActivity {
                     .load(imgUrl)
                     .into(imgs[i]);
             i=i+1;
-            if(i<3)
+            if(i>2)
                 break;
             //System.out.println("the urls are"+image.getUrl());
         }
-
     }
 
     public void full_image(View view) {
@@ -270,7 +199,6 @@ public class MenuChoice extends ActionBarActivity {
         intent.putExtra("imgUrl",imgUrl);
         startActivity(intent);
     }
-
     public void logout_btn(View view) {
         ParseUser.logOut();
         Intent intent=new Intent(this,welcome.class);

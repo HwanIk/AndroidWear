@@ -31,5 +31,7 @@
     <string name="title_activity_full__image">Full_Image</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_parse_application">ParseApplication</string>
+    <string name="title_activity_up_load">upLoad</string>
+    <string name="title_activity_post">Post</string>
 
 </resources>

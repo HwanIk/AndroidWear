@@ -94,8 +94,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ParseApplication"
-            android:label="@string/title_activity_parse_application" >
+            android:name=".Post"
+            android:label="@string/title_activity_post" >
         </activity>
     </application>
 

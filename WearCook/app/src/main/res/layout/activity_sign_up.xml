@@ -25,9 +25,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="signUpBtn"/>
-    <Button
-        android:text="페이스북으로 가입"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="sign_in_Facebook"/>
 </LinearLayout>

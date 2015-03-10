@@ -32,10 +32,10 @@
         android:onClick="camera"/>
     <Button
         android:id="@+id/loadImage"
-        android:text="이미지 업로드"
+        android:text="글쓰기"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="load_image"/>
+        android:onClick="post"/>
     <Button
         android:id="@+id/imageTest"
         android:text="이미지 호출"
