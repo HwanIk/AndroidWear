@@ -45,19 +45,68 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/image_0"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:onClick="full_image"/>
-        <ImageView
-            android:id="@+id/image_1"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-        <ImageView
-            android:id="@+id/image_2"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/image_0"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="full_image"/>
+            <TextView
+                android:id="@+id/title_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/content_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/image_1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                />
+            <TextView
+                android:id="@+id/title_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/content_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/image_2"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+            <TextView
+                android:id="@+id/title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/content_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"/>
+        </LinearLayout>
     </LinearLayout>
     <Button
         android:text="logout"

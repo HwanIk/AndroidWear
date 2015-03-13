@@ -1,10 +1,13 @@
 package com.antonioleiva.wearcook;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -67,15 +70,42 @@ public class Post extends ActionBarActivity {
     }
     //갤러리를 호출
     public void image_load(View view) {
+        /*
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
         intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQ_CODE_SELECT_IMAGE);
+        */
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Picture"), REQ_CODE_SELECT_IMAGE);
     }
     //갤러리에서 이미지를 가져온다. image_load 함수에서 갤러리를 호출한 후 그 결과 작업에 따른 반환 값을 onActivityResult에서 가진다.
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(getBaseContext(), "resultCode : " + resultCode, Toast.LENGTH_SHORT).show();
+        /*
+        if (Build.VERSION.SDK_INT >= 18 && null == data.getData()) {
+            ClipData clipdata = data.getClipData();
+            for (int i=0; i<clipdata.getItemCount();i++)
+            {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), clipdata.getItemAt(i).getUri());
+                    //DO something
+                    String pkg = getPackageName();
+
+                    int id = getResources().getIdentifier("imageView"+(i), "id", pkg);
+                    ImageView image=(ImageView) findViewById(id);
+                    image.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }*/
+
         if (requestCode == REQ_CODE_SELECT_IMAGE) { //해당 작업이 이미지 로드라면
             if (resultCode == Activity.RESULT_OK) {
                 try {
@@ -99,6 +129,7 @@ public class Post extends ActionBarActivity {
                 }
             }
         }
+        Toast.makeText(getBaseContext(), "이미지 로드 완료 : " + resultCode, Toast.LENGTH_SHORT).show();
     }
         //이미지의 경로와 이름을 받아오는 함수
     public String getImageNameToUri(Uri data) {

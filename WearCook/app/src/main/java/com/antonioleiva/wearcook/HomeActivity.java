@@ -15,7 +15,6 @@
  */
 
 package com.antonioleiva.wearcook;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -33,8 +32,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-
 public class HomeActivity extends BaseActivity {
 
     private DrawerLayout drawer;

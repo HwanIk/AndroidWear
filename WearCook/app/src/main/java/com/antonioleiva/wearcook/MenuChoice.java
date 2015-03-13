@@ -17,7 +17,9 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
@@ -43,7 +45,11 @@ public class MenuChoice extends ActionBarActivity {
     //서버로부터 받은 다수 이미지를 출력하기 위한 변수들
     List<ParseObject> ob;
     private ImageView imgs[] = new ImageView[3];
+    TextView title[]=new TextView[3];
+    TextView content[]=new TextView[3];
     static String imgUrl;
+    String titleTxt;
+    String contentTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +62,18 @@ public class MenuChoice extends ActionBarActivity {
         imgs[0] = (ImageView) findViewById(R.id.image_0);
         imgs[1] = (ImageView) findViewById(R.id.image_1);
         imgs[2] = (ImageView) findViewById(R.id.image_2);
-        imgUrl="";
 
-        Intent intent=getIntent();
+        title[0]=(TextView)findViewById(R.id.title_0);
+        title[1]=(TextView)findViewById(R.id.title_1);
+        title[2]=(TextView)findViewById(R.id.title_2);
+
+        content[0]=(TextView)findViewById(R.id.content_0);
+        content[1]=(TextView)findViewById(R.id.content_1);
+        content[2]=(TextView)findViewById(R.id.content_2);
+        imgUrl="";
+        titleTxt="";
+        contentTxt="";
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -170,7 +185,7 @@ public class MenuChoice extends ActionBarActivity {
         int i=0;
 
         // Locate the class table named "Footer" in Parse.com
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("ImageSaveLoad");
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("post");
         ob=new ArrayList<ParseObject>();
         //query.orderByDescending("updatedAt");
         try {
@@ -187,6 +202,11 @@ public class MenuChoice extends ActionBarActivity {
             Picasso.with(view.getContext())
                     .load(imgUrl)
                     .into(imgs[i]);
+            titleTxt=upload_img.getString("title");
+            contentTxt=upload_img.getString("content");
+
+            title[i].setText(titleTxt);
+            content[i].setText(contentTxt);
             i=i+1;
             if(i>2)
                 break;
