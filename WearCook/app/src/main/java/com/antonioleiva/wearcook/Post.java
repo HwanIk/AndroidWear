@@ -3,19 +3,27 @@ package com.antonioleiva.wearcook;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseFile;
@@ -23,8 +31,8 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Post extends ActionBarActivity {
@@ -36,6 +44,11 @@ public class Post extends ActionBarActivity {
     EditText content;
     String titleTxt;
     String contentTxt;
+
+    ListView list;
+    ArrayList<PostData> dataArr;
+    MyAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +57,11 @@ public class Post extends ActionBarActivity {
         name_Str="";
         title=(EditText)findViewById(R.id.title);
         content=(EditText)findViewById(R.id.content);
+
+        list = (ListView) findViewById(R.id.listView);
+        dataArr = new ArrayList<PostData>();
+        mAdapter = new MyAdapter(this, R.layout.list_item,dataArr);
+        list.setAdapter(mAdapter);
     }
 
 
@@ -68,6 +86,44 @@ public class Post extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    class MyAdapter extends BaseAdapter {
+        Context context;
+        int layoutId;
+        ArrayList<PostData> myDataArr;
+        LayoutInflater Inflater;
+        MyAdapter(Context _context, int _layoutId, ArrayList<PostData> _myDataArr){
+            context = _context;
+            layoutId = _layoutId;
+            myDataArr = _myDataArr;
+            Inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        @Override
+        public int getCount() {
+            return myDataArr.size();
+        }
+
+        @Override
+        public String getItem(int position) {
+            return myDataArr.get(position).title;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final int pos = position;
+            if (convertView == null)  {
+                convertView = Inflater.inflate(layoutId, parent, false);
+            }
+
+            ImageView main_img = (ImageView)convertView.findViewById(R.id.main_img);
+            main_img.setImageBitmap(myDataArr.get(position).myImg);
+
+            return convertView;
+        }
+    }
     //갤러리를 호출
     public void image_load(View view) {
         /*
@@ -86,26 +142,21 @@ public class Post extends ActionBarActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*
+
         if (Build.VERSION.SDK_INT >= 18 && null == data.getData()) {
             ClipData clipdata = data.getClipData();
-            for (int i=0; i<clipdata.getItemCount();i++)
+            for (int i=clipdata.getItemCount()-1; i>=0;i--)
             {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), clipdata.getItemAt(i).getUri());
-                    //DO something
-                    String pkg = getPackageName();
-
-                    int id = getResources().getIdentifier("imageView"+(i), "id", pkg);
-                    ImageView image=(ImageView) findViewById(id);
-                    image.setImageBitmap(bitmap);
+                    dataArr.add(new PostData(bitmap,"안녕"+i,"010-4444-4124"));
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
-        }*/
-
+        }
+        mAdapter.notifyDataSetChanged();//@@@@@
+        /*
         if (requestCode == REQ_CODE_SELECT_IMAGE) { //해당 작업이 이미지 로드라면
             if (resultCode == Activity.RESULT_OK) {
                 try {
@@ -128,7 +179,7 @@ public class Post extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
         Toast.makeText(getBaseContext(), "이미지 로드 완료 : " + resultCode, Toast.LENGTH_SHORT).show();
     }
         //이미지의 경로와 이름을 받아오는 함수
