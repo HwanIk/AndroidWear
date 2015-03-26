@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">푸시 샘플</string>
-    <string name="notification_title">푸시샘플 알림</string>
-    <string name="send">푸시 메시지 나에게 보내기</string>
-    <string name="tokens">푸시토큰 조회</string>
-    <string name="unregister">푸시토큰 삭제</string>
-    <string name="register">푸시토큰 등록</string>
-</resources>

@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.Parse;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
 
 
@@ -24,12 +23,14 @@ public class MainActivity extends ActionBarActivity {
         if (currentUser != null) {
             // Send logged in users to Welcome.class
             Intent intent = new Intent(MainActivity.this, MenuChoice.class);
+
+
             startActivity(intent);
             finish();
         } else {
             // Send user to LoginSignupActivity.class
             Intent intent = new Intent(MainActivity.this,
-                    welcome.class);
+                    signIn.class);
             startActivity(intent);
             finish();
         }

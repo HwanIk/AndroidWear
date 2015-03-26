@@ -1,13 +1,10 @@
 package com.antonioleiva.wearcook;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -17,10 +14,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseFile;
@@ -29,9 +24,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,7 +213,7 @@ public class MenuChoice extends ActionBarActivity {
     }
     public void logout_btn(View view) {
         ParseUser.logOut();
-        Intent intent=new Intent(this,welcome.class);
+        Intent intent=new Intent(this,signIn.class);
         startActivity(intent);
         finish();
     }

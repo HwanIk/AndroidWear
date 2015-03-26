@@ -60,6 +60,7 @@ public class HomeActivity extends BaseActivity {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new GridViewAdapter());
+        //gridView에서 선택된 아이템을 클릭시 getTag값으로 이미지 uri를 받아 intent로 넘겨준
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -99,6 +100,7 @@ public class HomeActivity extends BaseActivity {
             return 3;
         }
 
+        // Adapter가 관리하는 Data의 Item 의 Position을 <객체> 형태로 얻어 옵니다.
         @Override public Object getItem(int i) {
             String step []={
                     "김치는 작게 썬다.",
@@ -108,15 +110,18 @@ public class HomeActivity extends BaseActivity {
             return String.valueOf(i + 1)+" step : " + step[i];
         }
 
+        // Adapter가 관리하는 Data의 Item 의 position 값의 ID 를 얻어 옵니다.
         @Override public long getItemId(int i) {
             return i;
         }
 
+        // ListView의 뿌려질 한줄의 Row를 설정 합니다.
         @Override public View getView(int i, View view, ViewGroup viewGroup) {
 
             if (view == null) {
                 view = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.grid_item, viewGroup, false);
+                //grid_item.xml에 있는 레이웃을 가져다가 쓰겠다
             }
             String img_url[]= {
                     "http://postfiles8.naver.net/20150210_263/rlaghksdlr_1423539779151EfH9d_PNG/c_1.png?type=w3",
@@ -124,7 +129,7 @@ public class HomeActivity extends BaseActivity {
                     "http://postfiles2.naver.net/20150210_257/rlaghksdlr_1423539780485FNQxI_PNG/c_3.png?type=w3",
             };
             //String imageUrl = "http://lorempixel.com/800/600/sports/" + String.valueOf(i + 1);
-            view.setTag(img_url[i]);
+            view.setTag(img_url[i]);  //image 나 button 등에 Tag를 사용해서 position 을 부여해 준다.
 
             ImageView image = (ImageView) view.findViewById(R.id.image);
             Picasso.with(view.getContext())

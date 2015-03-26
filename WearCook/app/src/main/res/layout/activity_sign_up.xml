@@ -21,8 +21,10 @@
         android:layout_height="wrap_content"
         android:hint="password"/>
     <Button
+        android:id="@+id/signUpBtn"
         android:text="sign up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="signUpBtn"/>
+        />
+
 </LinearLayout>
