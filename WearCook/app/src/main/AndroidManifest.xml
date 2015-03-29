@@ -27,7 +27,7 @@
     <!-- 사진을 찍고 외부저장소에 저장하기 위한 권한 요청 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+`
     <!-- Facebook 연동하기 위한 인터넷, 네트워크 권한 요청 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
