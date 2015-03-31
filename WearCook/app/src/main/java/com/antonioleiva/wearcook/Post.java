@@ -1,15 +1,11 @@
 
 package com.antonioleiva.wearcook;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -96,7 +92,6 @@ public class Post extends ActionBarActivity {
         startActivityForResult(intent, INTENT_REQUEST_GET_N_IMAGES);
     }
     //갤러리에서 이미지를 가져온다. image_load 함수에서 갤러리를 호출한 후 그 결과 작업에 따른 반환 값을 onActivityResult에서 가진다.
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -121,6 +116,9 @@ public class Post extends ActionBarActivity {
                         //
                         try {
                             bitmap[i] = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                            int height=bitmap[i].getHeight();
+                            int width=bitmap[i].getWidth();
+                            bitmap[i] = Bitmap.createScaledBitmap(bitmap[i], 600, height/(width/600), true);
                             list.add(new Item(bitmap[i],"" + i));
 
                             i++; //★12
@@ -244,5 +242,6 @@ public class Post extends ActionBarActivity {
         }
         editTextValues.saveInBackground(); //Parse Cloud에 데이터를 저장하는 함수
         Toast.makeText(this, "텍스트 업로드 완료", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

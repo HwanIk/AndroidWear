@@ -2,22 +2,28 @@ package com.antonioleiva.wearcook;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -35,13 +41,13 @@ public class MenuChoice extends ActionBarActivity {
     final int REQ_CODE_SELECT_IMAGE=100; //이미지 로드 버튼을 구분하기 위한 상수
 
     //서버로부터 받은 다수 이미지를 출력하기 위한 변수들
-    List<ParseObject> ob;
-    private ImageView imgs[] = new ImageView[3];
-    TextView title[]=new TextView[3];
-    TextView content[]=new TextView[3];
     static String imgUrl;
     String titleTxt;
     String contentTxt;
+    private ListView listView;
+    private List<Item> list = new ArrayList<Item>();
+    private MyAdapter myAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +57,13 @@ public class MenuChoice extends ActionBarActivity {
         //Parse에서 부여한 고유의 key 값, Application Id, Clieny Key 값
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
-        imgs[0] = (ImageView) findViewById(R.id.image_0);
-        imgs[1] = (ImageView) findViewById(R.id.image_1);
-        imgs[2] = (ImageView) findViewById(R.id.image_2);
-
-        title[0]=(TextView)findViewById(R.id.title_0);
-        title[1]=(TextView)findViewById(R.id.title_1);
-        title[2]=(TextView)findViewById(R.id.title_2);
-
-        content[0]=(TextView)findViewById(R.id.content_0);
-        content[1]=(TextView)findViewById(R.id.content_1);
-        content[2]=(TextView)findViewById(R.id.content_2);
         imgUrl="";
         titleTxt="";
         contentTxt="";
+
+        listView = (ListView)findViewById(R.id.recent_lv);
+        myAdapter=new MyAdapter(this,list);
+        listView.setAdapter(myAdapter);
 
     }
     @Override
@@ -157,15 +156,6 @@ public class MenuChoice extends ActionBarActivity {
 
     }
 
-    //카메라 버튼을 누르면 기존에 있는 카메라 어플을 선택하여 이미지를 촬영
-    public void camera(View view) {
-        //안드로이드에서 지원하는 인텐트를 통해서 카메라 액티비티?로 접근한다.
-        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-        }
-
     //이미지를 불러와서 출력, 서버에 저장하는 함수
     public void post(View view) {
         //post액티비티 호출
@@ -173,36 +163,94 @@ public class MenuChoice extends ActionBarActivity {
         startActivity(intent);
     }
     //주의!!!!!!!! 에러 : 이미지뷰의 배열의 수와 parse에 업로드 된 수의 싱크를 잘 맞춰야한다.
-    public void multiple_image(View view) {
-        int i=0;
+    public void multiple_image(final View view) {
 
         // Locate the class table named "Footer" in Parse.com
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("post");
-        ob=new ArrayList<ParseObject>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("hi");
+
         //query.orderByDescending("updatedAt");
-        try {
-            ob.addAll(query.find());
-        } catch (com.parse.ParseException e) {
-            e.printStackTrace();
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e==null){
+                    for(int i=0;i<parseObjects.size();i++ ){
+                        Log.d("object size", String.valueOf(parseObjects.size()));
+                        int j=0;
+                        while(parseObjects.get(i).get("step" + String.valueOf(j) + "image")!=null){
+                            ParseFile image=(ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "image");
+
+                            imgUrl=image.getUrl();
+                            list.add(new Item(imgUrl,parseObjects.get(i).getString("content"+String.valueOf(j))));
+                            j++;
+                            if(j>3) break;
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged();
+                }else{
+                    Log.d("error",e.getMessage());
+                }
+            }
+        });
+    }
+    private class Item {
+        public String img_url;
+        public String txt;
+        public Item(String img_url, String txt) {
+            this.img_url = img_url;
+            this.txt = txt;
+        }
+    }
+    private class MyAdapter extends BaseAdapter {
+
+        private final static int resId = R.layout.recent_post_list_item;
+        private Context context;
+        List<Item> list;
+
+        public MyAdapter(Context context, List<Item> list) {
+            super();
+            this.context = context;
+            this.list = list;
         }
 
-        for (ParseObject upload_img : ob) {
+        @Override
+        public int getCount() {
+            return list.size();
+        }
 
-            ParseFile image = (ParseFile) upload_img.get("FileName");
-            imgUrl=image.getUrl();
+        @Override
+        public Item getItem(int position) {
+            return list.get(position);
+        }
 
-            Picasso.with(view.getContext())
-                    .load(imgUrl)
-                    .into(imgs[i]);
-            titleTxt=upload_img.getString("title");
-            contentTxt=upload_img.getString("content");
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
 
-            title[i].setText(titleTxt);
-            content[i].setText(contentTxt);
-            i=i+1;
-            if(i>2)
-                break;
-            //System.out.println("the urls are"+image.getUrl());
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View v = convertView;
+
+            Item item = getItem(position);
+
+            if (v == null) {
+
+                v = getLayoutInflater().inflate(resId, null);
+                ImageView iv=(ImageView)v.findViewById(R.id.recent_image);
+                TextView tv = (TextView)v.findViewById(R.id.recent_txt);
+            }
+            ImageView iv=(ImageView)v.findViewById(R.id.recent_image);
+            TextView tv = (TextView)v.findViewById(R.id.recent_txt);
+            tv.setTag(item);
+            iv.setTag(item);
+
+            tv.setText(item.txt);
+            Picasso.with(context)
+                    .load(item.img_url)
+                    .into(iv);
+            return v;
         }
     }
 
