@@ -116,11 +116,16 @@ public class Post extends ActionBarActivity {
                         //
                         try {
                             bitmap[i] = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                            int height=bitmap[i].getHeight();
-                            int width=bitmap[i].getWidth();
-                            bitmap[i] = Bitmap.createScaledBitmap(bitmap[i], 600, height/(width/600), true);
-                            list.add(new Item(bitmap[i],"" + i));
-
+                            int height = bitmap[i].getHeight();
+                            int width = bitmap[i].getWidth();
+                            if (width > 600){
+                                if (width >= height) {
+                                    bitmap[i] = Bitmap.createScaledBitmap(bitmap[i], 600, height / (width / 600), true);
+                                } else {
+                                    bitmap[i] = Bitmap.createScaledBitmap(bitmap[i], width / (height / 600), 600, true);
+                                }
+                            }
+                            list.add(new Item(bitmap[i], "" + i));
                             i++; //★12
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -228,17 +233,18 @@ public class Post extends ActionBarActivity {
     //parse에 이미지 업로드 시키기
     public void post(View view) {
         ParseObject editTextValues = new ParseObject("hi"); //parse에 만들어진 해당 클래스로 데이터를 업로드한다.
-
+        ParseUser user = ParseUser.getCurrentUser();
         for (int i = 0; i < list.size(); i++) {
 
             ByteArrayOutputStream byteArray2 = new ByteArrayOutputStream();//★4
-            bitmap[i].compress(Bitmap.CompressFormat.PNG, 100, byteArray2); //png포맷의 품질을 100(%)으로 byteArray2에 저장.//★5
+            bitmap[i].compress(Bitmap.CompressFormat.JPEG, 70, byteArray2); //jpg포맷의 품질을 70(%)으로 byteArray2에 저장.//★5
             byte[] image_to_byte = byteArray2.toByteArray();//★6
             Imagefile = new ParseFile(name_str[i], image_to_byte);//★7 "image"+1부분에 name_str[i]를 넣으면 업로드가 안되요.
 
             Log.d(TAG, "" + list.get(i).edit);
             editTextValues.put("step" + String.valueOf(i) + "image", Imagefile);//★8
             editTextValues.put("content" + String.valueOf(i), list.get(i).edit);
+            editTextValues.put("user",user);
         }
         editTextValues.saveInBackground(); //Parse Cloud에 데이터를 저장하는 함수
         Toast.makeText(this, "텍스트 업로드 완료", Toast.LENGTH_SHORT).show();

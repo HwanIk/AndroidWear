@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -27,7 +28,7 @@ public class signUp extends ActionBarActivity {
     String passwordTxt;
     EditText userName;
     EditText password;
-    Button signUpBtn;
+    ImageView signUpBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public class signUp extends ActionBarActivity {
         //회원가입할 아이디,비밀번호를 받는 변수 초기화
         userName=(EditText)findViewById(R.id.userName);
         password=(EditText)findViewById(R.id.password);
-        signUpBtn=(Button)findViewById(R.id.signUpBtn);
+        signUpBtn=(ImageView)findViewById(R.id.signUpBtn);
 
         //Pasre앱에 대한 부분 초기화
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");//parse와 페이스북 연동작업 초기화

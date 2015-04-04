@@ -164,11 +164,12 @@ public class MenuChoice extends ActionBarActivity {
     }
     //주의!!!!!!!! 에러 : 이미지뷰의 배열의 수와 parse에 업로드 된 수의 싱크를 잘 맞춰야한다.
     public void multiple_image(final View view) {
+        myAdapter.removeAll();
 
         // Locate the class table named "Footer" in Parse.com
         ParseQuery<ParseObject> query = ParseQuery.getQuery("hi");
 
-        //query.orderByDescending("updatedAt");
+        query.orderByDescending("updatedAt");
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -193,14 +194,7 @@ public class MenuChoice extends ActionBarActivity {
             }
         });
     }
-    private class Item {
-        public String img_url;
-        public String txt;
-        public Item(String img_url, String txt) {
-            this.img_url = img_url;
-            this.txt = txt;
-        }
-    }
+
     private class MyAdapter extends BaseAdapter {
 
         private final static int resId = R.layout.recent_post_list_item;
@@ -212,7 +206,12 @@ public class MenuChoice extends ActionBarActivity {
             this.context = context;
             this.list = list;
         }
+        public void removeAll(){   //■2015.04.02 (7)
+            while(myAdapter.getCount()!=0)
+                myAdapter.list.remove(0);
 
+            myAdapter.notifyDataSetChanged();
+        }
         @Override
         public int getCount() {
             return list.size();

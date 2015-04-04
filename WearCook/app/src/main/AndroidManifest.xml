@@ -65,7 +65,8 @@
         </activity>
         <activity
             android:name=".signIn"
-            android:label="@string/title_activity_sign_in" >
+            android:label="@string/title_activity_sign_in"
+            >
         </activity>
 
         <!-- Facebook 앱 키를 등록록 -->

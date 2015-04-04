@@ -4,22 +4,35 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <ImageView
-        android:id="@+id/recent_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:adjustViewBounds="true"
-        />
-    <TextView
-        android:text="zz"
-        android:id="@+id/recent_txt"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"/>
-    </LinearLayout>
+        android:orientation="horizontal"
+        android:padding="0dp"
+        android:layout_margin="0dp">
+
+        <!-- ImageView의 height를 어떻게 해야 할 지 모르겠어요.-->
+        <ImageView
+            android:id="@+id/recent_image"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:adjustViewBounds="true"
+
+            />
+        <!-- TextView의 marginTop에서 값을 지정해줬는데 이 값을 뭔가 %로 지정해주는게 없나..모르겠네요  -->
+        <!-- weight는 리니어레이아웃에서만 쓸 수 있는 것 같아요 -->
+        <TextView
+            android:text="치킨"
+            android:id="@+id/recent_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignRight="@+id/recent_image"
+            android:layout_alignBottom="@+id/recent_image"
+
+            android:layout_marginBottom="70dp"
+            android:layout_marginRight="40dp"
+            android:textSize="25dp"
+            android:textColor="#ffebf2ff"/>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -3,12 +3,15 @@ package com.antonioleiva.wearcook;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -24,7 +27,7 @@ public class signIn extends FragmentActivity {
     EditText password;
     String userNameTxt;
     String passwordTxt;
-    Button loginBtn;
+    ImageView loginBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +38,13 @@ public class signIn extends FragmentActivity {
 
         userName=(EditText)findViewById(R.id.logUserName);
         password=(EditText)findViewById(R.id.logPassword);
-        loginBtn=(Button)findViewById(R.id.sign_in);
+
+        //userName.setBackgroundColor(.TRANSPARENT);
+
+
+
+
+        loginBtn=(ImageView)findViewById(R.id.sign_in);
 
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -62,7 +71,6 @@ public class signIn extends FragmentActivity {
                                 Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                             }
                         }
-
                     });
                 }
             }
