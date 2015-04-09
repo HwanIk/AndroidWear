@@ -33,5 +33,5 @@
     <string name="title_activity_parse_application">ParseApplication</string>
     <string name="title_activity_up_load">upLoad</string>
     <string name="title_activity_post">Post</string>
-
+    <string name="scheme_color">#307BFF</string>
 </resources>

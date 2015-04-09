@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -47,6 +48,7 @@ public class MenuChoice extends ActionBarActivity {
     private ListView listView;
     private List<Item> list = new ArrayList<Item>();
     private MyAdapter myAdapter;
+    PullRefreshLayout refreshlayout;
 
 
     @Override
@@ -60,11 +62,23 @@ public class MenuChoice extends ActionBarActivity {
         imgUrl="";
         titleTxt="";
         contentTxt="";
+        int [] color = new int[3];
 
         listView = (ListView)findViewById(R.id.recent_lv);
         myAdapter=new MyAdapter(this,list);
         listView.setAdapter(myAdapter);
 
+        refreshlayout= (PullRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        refreshlayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
+        refreshlayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+                load_from_parse();
+                // refresh complete
+                refreshlayout.setRefreshing(false);
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,6 +178,9 @@ public class MenuChoice extends ActionBarActivity {
     }
     //주의!!!!!!!! 에러 : 이미지뷰의 배열의 수와 parse에 업로드 된 수의 싱크를 잘 맞춰야한다.
     public void multiple_image(final View view) {
+        load_from_parse();
+    }
+    public void load_from_parse(){
         myAdapter.removeAll();
 
         // Locate the class table named "Footer" in Parse.com
@@ -194,7 +211,6 @@ public class MenuChoice extends ActionBarActivity {
             }
         });
     }
-
     private class MyAdapter extends BaseAdapter {
 
         private final static int resId = R.layout.recent_post_list_item;

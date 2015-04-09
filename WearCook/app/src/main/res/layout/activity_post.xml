@@ -33,6 +33,4 @@
         android:descendantFocusability="afterDescendants" >
     </ListView>
 
-
-
 </LinearLayout>
