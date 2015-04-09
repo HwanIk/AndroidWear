@@ -55,12 +55,12 @@ public class Post extends ActionBarActivity {
         setContentView(R.layout.activity_post);
 
         listView = (ListView)findViewById(R.id.listView);
+
         myAdapter=new MyAdapter(this,list);
         listView.setAdapter(myAdapter);
         image_to_byte=null;
         name_str=null;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

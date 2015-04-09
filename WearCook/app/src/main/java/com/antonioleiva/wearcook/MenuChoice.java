@@ -62,7 +62,6 @@ public class MenuChoice extends ActionBarActivity {
         imgUrl="";
         titleTxt="";
         contentTxt="";
-        int [] color = new int[3];
 
         listView = (ListView)findViewById(R.id.recent_lv);
         myAdapter=new MyAdapter(this,list);

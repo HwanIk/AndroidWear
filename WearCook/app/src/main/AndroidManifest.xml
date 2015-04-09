@@ -92,7 +92,8 @@
 
         <activity
             android:name=".Post"
-            android:label="@string/title_activity_post" >
+            android:label="@string/title_activity_post"
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
         <!-- 이미지 여러장 불러오는 액티비티 -->
