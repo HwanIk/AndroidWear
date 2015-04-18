@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_top">48dp</dimen>
+    <dimen name="app_bar_top_padding">24dp</dimen>
+    <!--이 값을 주는 이유는 v19에 windowTranslucentStatus 속성을 주면 액티비티가 상태바까지 넘어가기 때문-->
+
+    <dimen name="drawer_margin_top">24dp</dimen>
+
+</resources>

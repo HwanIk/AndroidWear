@@ -1,0 +1,33 @@
+<org.lucasr.dspec.DesignSpecFrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<!--app:designSpec="@raw/spec" 이 코드를 입력하게 되면 네비게이션 바에 제도판? 처럼 현재 레이아웃 적용상태가 나타난다.
+    방법1. res에 raw폴더를 생성하고, 그 안에 spec파일을 생성, json 형태의 값들을 넣는다. 참고소스 : https://github.com/lucasr/dspec -->
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        tools:context="com.example.hwanik.materialtest.NavigationDrawerFragment">
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FB8C00">
+            <ImageView
+                android:layout_marginTop="@dimen/drawer_margin_top"
+                android:layout_marginBottom="16dp"
+                android:layout_width="280dp"
+                android:layout_height="140dp"
+                android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"/>
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/container"
+            android:id="@+id/drawerList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</org.lucasr.dspec.DesignSpecFrameLayout>
