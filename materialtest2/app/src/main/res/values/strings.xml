@@ -14,4 +14,7 @@
         <item>Tab 2</item>
         <item>Tab 3</item>
     </string-array>
+    <string name="title_activity_splash">Splash</string>
+    <string name="facebook_app_id">461714007312357</string>
+    <string name="title_activity_sign_in">SignIn</string>
 </resources>

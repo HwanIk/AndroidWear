@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.parse.Parse;
+import com.parse.ParseUser;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -98,7 +99,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             return true;
         }
         if(id==R.id.navigate){
-            startActivity(new Intent(this,SubActivity.class));
+            ParseUser.logOut();
+            Intent intent=new Intent(this,SignIn.class);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

@@ -15,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.baoyz.widget.PullRefreshLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -59,6 +57,7 @@ public class SecondPage extends Fragment {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                list.clear();
                 load_from_parse();
             }
         });
@@ -80,7 +79,7 @@ public class SecondPage extends Fragment {
                         while(parseObjects.get(i).get("step" + String.valueOf(j) + "image")!=null){
                             check_string=parseObjects.get(i).getString("content" + String.valueOf(j));
 
-                            if(et_text.equals(check_string)) {
+                            if(check_string.contains(et_text)) {
                             Log.d("object size", parseObjects.get(i).getString("content" + String.valueOf(j)));
 
                                 ParseFile image = (ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "image");
