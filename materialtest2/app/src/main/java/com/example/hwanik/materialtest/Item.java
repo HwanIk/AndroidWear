@@ -6,8 +6,10 @@ package com.example.hwanik.materialtest;
 public class Item {
     public String img_url;
     public String txt;
-    public Item(String img_url, String txt) {
+    public String objectId;
+    public Item(String img_url, String txt, String objectId) {
         this.img_url = img_url;
         this.txt = txt;
+        this.objectId=objectId;
     }
 }

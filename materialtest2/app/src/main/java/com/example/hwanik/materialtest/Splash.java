@@ -31,7 +31,7 @@ public class Splash extends ActionBarActivity {
                     startActivity(intent);
                     finish();
                 }
-            },3000);
+            },2000);
 
         } else {
             // Send user to LoginSignupActivity.class
@@ -43,7 +43,7 @@ public class Splash extends ActionBarActivity {
                     startActivity(intent);
                     finish();
                 }
-            },3000);
+            },2000);
         }
 
     }

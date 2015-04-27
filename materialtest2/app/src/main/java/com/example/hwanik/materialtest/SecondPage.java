@@ -85,7 +85,7 @@ public class SecondPage extends Fragment {
                                 ParseFile image = (ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "image");
 
                                 imgUrl = image.getUrl();
-                                list.add(new Item(imgUrl, parseObjects.get(i).getString("content" + String.valueOf(j))));
+                                list.add(new Item(imgUrl, parseObjects.get(i).getString("content" + String.valueOf(j)),parseObjects.get(i).getObjectId()));
                             }
                             j++;
                             if (j > 3) break;

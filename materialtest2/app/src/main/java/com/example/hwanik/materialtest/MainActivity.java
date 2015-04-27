@@ -99,10 +99,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             return true;
         }
         if(id==R.id.navigate){
+            /*
             ParseUser.logOut();
             Intent intent=new Intent(this,SignIn.class);
             startActivity(intent);
-            finish();
+            finish();*/
+            Intent intent=new Intent(this,UploadPage.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,12 +1,15 @@
 package com.example.hwanik.materialtest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +36,7 @@ public class FirstPage extends Fragment {
     private List<Item> list = new ArrayList<Item>();
     private MyAdapter myAdapter;
     PullRefreshLayout refreshlayout;
-
+    int pos;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,23 @@ public class FirstPage extends Fragment {
         listView = (ListView)linearLayout.findViewById(R.id.recent_lv);
         myAdapter=new MyAdapter(getActivity(),list);
         listView.setAdapter(myAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //＆2015.04.03 listview item의 onclick이벤트 [4]
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pos=position;
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent=new Intent(getActivity(), Detail.class);
+                        intent.putExtra("objectId",list.get(pos).objectId);
+                        getActivity().startActivity(intent);
+
+                    }
+                }, 250);
+            }
+        });
 
         refreshlayout= (PullRefreshLayout)linearLayout.findViewById(R.id.swipeRefreshLayout);
         refreshlayout.setRefreshStyle(PullRefreshLayout.STYLE_MATERIAL);
@@ -63,6 +83,9 @@ public class FirstPage extends Fragment {
 //        page_num.setText(String.valueOf(1));
         return refreshlayout;
     }
+    public void go_to_detail(){
+
+    }
     public void load_from_parse(){
         myAdapter.removeAll();
 
@@ -70,7 +93,6 @@ public class FirstPage extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("hi");
 
         query.orderByDescending("updatedAt");
-
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
@@ -82,7 +104,7 @@ public class FirstPage extends Fragment {
                             ParseFile image=(ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "image");
 
                             imgUrl=image.getUrl();
-                            list.add(new Item(imgUrl,parseObjects.get(i).getString("content"+String.valueOf(j))));
+                            list.add(new Item(imgUrl,parseObjects.get(i).getString("content"+String.valueOf(j)),parseObjects.get(i).getObjectId()));
                             j++;
                             if(j>3) break;
                         }

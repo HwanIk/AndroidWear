@@ -17,4 +17,7 @@
     <string name="title_activity_splash">Splash</string>
     <string name="facebook_app_id">461714007312357</string>
     <string name="title_activity_sign_in">SignIn</string>
+    <string name="title_activity_upload_page">UploadPage</string>
+    <string name="title_activity_add_step">AddStep</string>
+    <string name="title_activity_detail">Detail</string>
 </resources>

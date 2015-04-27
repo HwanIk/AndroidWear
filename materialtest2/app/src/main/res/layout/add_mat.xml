@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:text="재료추가(Dialog) - addMat 액티비티"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:hint="재료이름"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/addMat_matName"/>
+        <EditText
+            android:hint="수량"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/addMat_matInt"/>
+        <EditText
+            android:hint="단위"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/addMat_matUnit"/>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="재료추가"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="완료"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>
