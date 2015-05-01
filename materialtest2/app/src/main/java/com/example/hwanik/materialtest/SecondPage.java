@@ -5,9 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * Created by hwanik on 2015. 4. 18..
  */
-public class SecondPage extends Fragment {
+public class SecondPage extends Fragment implements TextView.OnEditorActionListener {
 
 
     static String imgUrl;
@@ -43,6 +45,7 @@ public class SecondPage extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -53,6 +56,8 @@ public class SecondPage extends Fragment {
         listView.setAdapter(myAdapter);
 
         et=(EditText)linearLayout.findViewById(R.id.search_title);
+        et.setOnEditorActionListener(this); //edittext와 enter버튼 눌렀을때 리스너를 연결시켜준다.
+
         searchBtn=(ImageButton)linearLayout.findViewById(R.id.search_btn);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +103,19 @@ public class SecondPage extends Fragment {
             }
         });
     }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        //검색버튼 누르면 키보드가 자동으로 내려간다.
+        InputMethodManager mInputMethodManager = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), 0);
+
+        list.clear();
+        load_from_parse();
+
+        return false;
+    }
+
     private class MyAdapter extends BaseAdapter {
 
         private final static int resId = R.layout.list_item;

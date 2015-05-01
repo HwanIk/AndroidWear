@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.parse.Parse;
@@ -46,6 +47,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //      setContentView(R.layout.activity_main_appbar); 이 코드는 툴바를 넘지 않는 drawerlayout을 적용시키는 코드.
+
+        //edittext검색하려고 키보드 띄우면 하단탭이 올라오는 현상을 막아주는 코드드
+       getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
         toolbar=(Toolbar)findViewById(R.id.app_bar);

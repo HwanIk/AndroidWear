@@ -177,15 +177,15 @@ public class AddStep extends Activity {
         ParseFile mainImageFile = new ParseFile(name_str[0], bitmapToByte);
         editTextValues.put("MAIN_IMAGE",mainImageFile);
 
-        editTextValues.put("MAIN_SUBJECT",postTitle_title);
-        editTextValues.put("SUB_SUBJECTE",postTitle_subTitle);
+        editTextValues.put("MAIN_TITLE",postTitle_title);
+        editTextValues.put("SUB_TITLE",postTitle_subTitle);
 
         //3. 재료 업로드
         //matAdapter.getItem(i).Matname
         for(int i=0;i<list2.size();i++) {
-            editTextValues.put("FOOD_NAME_"+i,matAdapter.getItem(i).Matname );
-            editTextValues.put("FOOD_COUNT_"+i,Integer.parseInt(matAdapter.getItem(i).quantity));
-            editTextValues.put("FOOD_KIND_"+i,matAdapter.getItem(i).unit );
+            editTextValues.put("M_NAME_"+i,matAdapter.getItem(i).Matname );
+            editTextValues.put("M_COUNT_"+i,Integer.parseInt(matAdapter.getItem(i).quantity));
+            editTextValues.put("M_UNIT_"+i,matAdapter.getItem(i).unit );
         }
         //4. Parse Cloud에 데이터 업로드
         editTextValues.saveInBackground();
