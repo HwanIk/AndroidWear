@@ -1,0 +1,20 @@
+<!--
+여기는 롤리팝 이전 버전에 관한 것 같다.
+롤리팝 이전 버전은 상단 부분 상태표시줄에 대한 색 값을 제어할 수 없다.
+-->
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar"> <!-- Ligth : 컨텐츠 배경 밝게, DarkAction:액션바 텍스트 어둡게, 액션바를 없애고 커스터마이즈 한다. -->
+        <item name="colorPrimary">@color/colorPrimary</item>                <!--ActionBar 생상-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>        <!--ActionBar 위 상태표시줄 상단 색값인데 롤리팝 이전 버전은 해당되지 않음-->
+        <item name="colorAccent">@color/colorAccent</item>                  <!--앱 전체적인 색에 비해 악센트를 줘야 하는 색상 값-->
+        <item name="android:windowBackground">@android:color/white</item>
+
+    </style>
+    <style name="HoloTheme" parent="@android:style/Theme.Holo.Light">
+    </style>
+</resources>

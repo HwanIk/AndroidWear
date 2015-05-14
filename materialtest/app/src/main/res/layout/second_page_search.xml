@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/secondPage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_parent_rounded_corner"
+            android:layout_gravity="center_vertical">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/search_title"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:hint="음식이름, 갖고있는 재료 검색"
+                app:met_clearButton="true"
+                app:met_iconLeft="@drawable/search_icon1"
+                app:met_iconPadding="0dp"
+                app:met_hideUnderline="true"/>
+        </LinearLayout>
+            <ImageButton
+                android:id="@+id/search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_search"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/search_lv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="afterDescendants" >
+    </ListView>
+</LinearLayout>
