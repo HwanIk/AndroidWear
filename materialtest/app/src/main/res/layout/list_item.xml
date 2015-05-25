@@ -12,10 +12,11 @@
             <!--android:paddingRight="15dp">-->
 
             <!-- ImageView의 height를 어떻게 해야 할 지 모르겠어요.-->
+
             <ImageView
                 android:id="@+id/recent_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="472dp"
                 android:background="@drawable/bg_parent_rounded_corner"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -25,19 +26,36 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:layout_alignBottom="@+id/recent_image"
                 android:background="#64000000"/>
-            <TextView
-                android:text="default"
-                android:id="@+id/recent_txt"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/recent_image"
-                android:layout_marginBottom="25dp"
-                android:layout_marginLeft="30dp"
-                android:textSize="25sp"
-                android:textColor="#ffebf2ff"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:layout_alignBottom="@+id/recent_image">
+                <ImageView
+                    android:id="@+id/best"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/best1"/>
+                <TextView
+                    android:id="@+id/recent_subTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="sub"
+                    android:textSize="15sp"
+                    android:textColor="#ffebf2ff"/>
+                <TextView
+                    android:text="default"
+                    android:id="@+id/recent_Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="25sp"
+                    android:textColor="#ffebf2ff"/>
+            </LinearLayout>
         </RelativeLayout>
 
 </LinearLayout>

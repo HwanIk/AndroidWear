@@ -27,12 +27,13 @@ public class n_step extends Fragment {
 
     private ImageView iv;
     private TextView tv;
-    private EditText et;
+    public EditText et;
     private Button nextStep_btn;
     private final int INTENT_REQUEST_GET_N_IMAGES=1;
-    private Bitmap bitmap=null;
+    public Bitmap bitmap=null;
     private Uri uri=null;
     private String bitmapName = null;
+    private int dataChange=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class n_step extends Fragment {
         iv=(ImageView)v.findViewById(R.id.step_img);
         tv=(TextView)v.findViewById(R.id.step_title);
         et=(EditText)v.findViewById(R.id.step_content);
-        nextStep_btn=(Button)v.findViewById(R.id.next_btn);
+        nextStep_btn=(Button)v.findViewById(R.id.nextButton);
 
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +58,21 @@ public class n_step extends Fragment {
                 startActivityForResult(intent, INTENT_REQUEST_GET_N_IMAGES);
             }
         });
+        nextStep_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                makeStep v=((makeStep)getActivity());
+                v.mAdapter.addFragment(new n_step());
+                v.mPager.setCurrentItem(v.curPage+1);
+            }
+        });
 
+        //onCreate에서 다시 비트맵을 셋 해주는 이유는 FragmentPagerAdapter에 Fragment를 동적으로 생성함에 따라 notifyChangeData()함수가 호출된다.
+        //이 때 각 Fragment의 데이터 변경이 생기면 Fragment는 다시 onCreateView를 호출하기 때문에 다시 값을 초기화 해주어야 제대로 출력이 된다.
+
+        if(dataChange==1){
+            iv.setImageBitmap(bitmap);
+        }
         return v;
     }
     @Override
@@ -82,24 +97,41 @@ public class n_step extends Fragment {
                     bitmapName = getImageNameToUri(uri);
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), uri);
-                        int height=bitmap.getHeight();
-                        int width=bitmap.getWidth();
-                        if(width>=600){
-                            if(width>=height){
-                                bitmap = Bitmap.createScaledBitmap(bitmap, 600, height / (width / 600), true);
-                            } else{
-                                bitmap = Bitmap.createScaledBitmap(bitmap, width/(height/600),600, true);
-                            }}
-                        else{
-                            //아무것도안해도됨. 비트맵 있는그대로 놔두기.
-                        }
+                        bitmap=resizeBitmapImageFn(bitmap,600);
                         iv.setImageBitmap(bitmap);
+                        dataChange = 1;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
+    }
+    public Bitmap resizeBitmapImageFn(
+            Bitmap bmpSource, int maxResolution){
+        int iWidth = bmpSource.getWidth();      //비트맵이미지의 넓이
+        int iHeight = bmpSource.getHeight();     //비트맵이미지의 높이
+        int newWidth = iWidth ;
+        int newHeight = iHeight ;
+        float rate = 0.0f;
+
+        //이미지의 가로 세로 비율에 맞게 조절
+        if(iWidth > iHeight ){
+            if(maxResolution < iWidth ){
+                rate = maxResolution / (float) iWidth ;
+                newHeight = (int) (iHeight * rate);
+                newWidth = maxResolution;
+            }
+        }else{
+            if(maxResolution < iHeight ){
+                rate = maxResolution / (float) iHeight ;
+                newWidth = (int) (iWidth * rate);
+                newHeight = maxResolution;
+            }
+        }
+
+        return Bitmap.createScaledBitmap(
+                bmpSource, newWidth, newHeight, true);
     }
     public String getImageNameToUri(Uri data) {
         String imgPath = data.toString();

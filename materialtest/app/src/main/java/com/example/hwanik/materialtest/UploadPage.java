@@ -75,17 +75,8 @@ public class UploadPage extends ActionBarActivity {
                     bitmapName = getImageNameToUri(uri);
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                        int height=bitmap.getHeight();
-                        int width=bitmap.getWidth();
-                        if(width>=600){
-                            if(width>=height){
-                                bitmap = Bitmap.createScaledBitmap(bitmap, 600, height/(width/600), true);
-                            } else{
-                                bitmap = Bitmap.createScaledBitmap(bitmap, width/(height/600),600, true);
-                            }}
-                        else{
-                            //아무것도안해도됨. 비트맵 있는그대로 놔두기.
-                        }
+
+                        bitmap=resizeBitmapImageFn(bitmap,600);
                         postTitle_image.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -93,6 +84,32 @@ public class UploadPage extends ActionBarActivity {
                 }
             }
         }
+    }
+    public Bitmap resizeBitmapImageFn(
+            Bitmap bmpSource, int maxResolution){
+        int iWidth = bmpSource.getWidth();      //비트맵이미지의 넓이
+        int iHeight = bmpSource.getHeight();     //비트맵이미지의 높이
+        int newWidth = iWidth ;
+        int newHeight = iHeight ;
+        float rate = 0.0f;
+
+        //이미지의 가로 세로 비율에 맞게 조절
+        if(iWidth > iHeight ){
+            if(maxResolution < iWidth ){
+                rate = maxResolution / (float) iWidth ;
+                newHeight = (int) (iHeight * rate);
+                newWidth = maxResolution;
+            }
+        }else{
+            if(maxResolution < iHeight ){
+                rate = maxResolution / (float) iHeight ;
+                newWidth = (int) (iWidth * rate);
+                newHeight = maxResolution;
+            }
+        }
+
+        return Bitmap.createScaledBitmap(
+                bmpSource, newWidth, newHeight, true);
     }
 
     public String getImageNameToUri(Uri data) {

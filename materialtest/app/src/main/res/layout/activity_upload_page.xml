@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@drawable/bg_parent_rounded_corner"
-            android:src="@drawable/loadphoto"
+            android:src="@drawable/maindefault"
             android:scaleType="centerCrop"
             android:onClick="postTitle_image"
             />

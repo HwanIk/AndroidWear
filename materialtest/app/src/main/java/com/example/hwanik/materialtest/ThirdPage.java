@@ -1,6 +1,7 @@
 package com.example.hwanik.materialtest;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +23,23 @@ public class ThirdPage extends Fragment {
     ListView listView;
     private MyAdapter myAdapter;
     private List<Category> list = new ArrayList<Category>();
+    private Typeface typeface;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/NanumBarunGothic.otf");
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.thirdpage, container, false);
-        LinearLayout thirdPage=(LinearLayout)linearLayout.findViewById(R.id.thirdPage);
+        LinearLayout view=(LinearLayout)inflater.inflate(R.layout.thirdpage, container, false);
 
-        listView = (ListView)thirdPage.findViewById(R.id.category);
+        listView = (ListView)view.findViewById(R.id.category);
         myAdapter=new MyAdapter(getActivity(),list);
         listView.setAdapter(myAdapter);
 
-
-
-
-        return thirdPage;
+        return view;
     }
     class Category{
         public String title;
@@ -58,8 +59,10 @@ public class ThirdPage extends Fragment {
             this.list = list;
             this.list.add(new Category("한식"));
             this.list.add(new Category("양식"));
-            this.list.add(new Category("중식"));
-            this.list.add(new Category("분식"));
+            this.list.add(new Category("중식/일식"));
+            this.list.add(new Category("분식류/간식"));
+            this.list.add(new Category("베이커리"));
+            this.list.add(new Category("디저트"));
         }
         @Override
         public int getCount() {
@@ -90,6 +93,10 @@ public class ThirdPage extends Fragment {
             }
 
             TextView tv = (TextView)v.findViewById(R.id.category_title);
+            if(position%2==0) {
+                tv.setBackgroundColor(0xfff0f0f0);
+            }
+            tv.setTypeface(typeface);
             tv.setTag(category);
 
             tv.setText(category.title);

@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:hint="음식이름, 갖고있는 재료 검색"
+                app:met_primaryColor="#ffffa418"
                 app:met_clearButton="true"
                 app:met_iconLeft="@drawable/search_icon1"
                 app:met_iconPadding="0dp"

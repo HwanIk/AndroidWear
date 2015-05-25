@@ -1,6 +1,7 @@
 package com.example.hwanik.materialtest;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,17 @@ public class mat_step extends Fragment {
 
     private ListView listview;
     private matAdapter matAdapter;
-    private List<matItem> list=new ArrayList<matItem>();;
+    public List<matItem> list=new ArrayList<matItem>();
+
+    public MaterialEditText cookT;
+    public MaterialEditText cookM;
+    public MaterialEditText tipT;
+    public String cookTime;
+    public String cookMan;
+    public String tip;
+
+    private String TYPEFACE_NAME;
+    private Typeface typeface;
 
     public mat_step(byte[] byteToBitmap, String postTitle_title){
         this.byteToBitmap=byteToBitmap;
@@ -45,9 +58,17 @@ public class mat_step extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        TYPEFACE_NAME="fonts/NanumBarunGothic.otf";
+        typeface=Typeface.createFromAsset(getActivity().getAssets(),TYPEFACE_NAME);
+
         LinearLayout linearLayout=(LinearLayout)inflater.inflate(R.layout.fragment_mat_step, container, false);
         ImageView matStep_img=(ImageView)linearLayout.findViewById(R.id.matStep_image);
         TextView matStep_txt=(TextView)linearLayout.findViewById(R.id.matStep_title);
+        TextView secondTitle=(TextView)linearLayout.findViewById(R.id.secondTitle);
+        secondTitle.setTypeface(typeface);
+        matStep_txt.setTypeface(typeface);
+
 
         matStep_image=BitmapFactory.decodeByteArray(byteToBitmap,0,byteToBitmap.length);
 
@@ -55,10 +76,13 @@ public class mat_step extends Fragment {
         matStep_txt.setText(postTitle_title);
 
         listview=(ListView)linearLayout.findViewById(R.id.mat_list);
+        listview.setDivider(null);
         matAdapter=new matAdapter(getActivity(),list);
         listview.setAdapter(matAdapter);
 
-        list.add(new matItem("","",""));
+        if(list.size() == 0) {
+            list.add(new matItem("", "", ""));
+        }
 
         ImageView addMat=(ImageView)linearLayout.findViewById(R.id.addMat);
 
@@ -70,9 +94,16 @@ public class mat_step extends Fragment {
             }
         });
 
+        cookT=(MaterialEditText)linearLayout.findViewById(R.id.time);
+        cookM=(MaterialEditText)linearLayout.findViewById(R.id.man);
+        tipT=(MaterialEditText)linearLayout.findViewById(R.id.tip);
+        cookTime=cookT.getText().toString();
+        cookMan=cookM.getText().toString();
+        tip=tipT.getText().toString();
         // Inflate the layout for this fragment
         return linearLayout;
     }
+
     public class matItem{
         public String matName;
         public String matNum;
@@ -103,19 +134,19 @@ public class mat_step extends Fragment {
             switch(position){
                 case 0:
                     //if (item.matName != null) {
-                        item.matName = s.toString();
+                    item.matName = s.toString();
                     //}
                     break;
 
                 case 1:
                     //if (item.matNum != null) {
-                        item.matNum = s.toString();
+                    item.matNum = s.toString();
                     //}
                     break;
 
                 case 2:
                     //if (item.matUnit != null) {
-                        item.matUnit = s.toString();
+                    item.matUnit = s.toString();
                     //}
                     break;
             }
@@ -127,6 +158,8 @@ public class mat_step extends Fragment {
     }
 
     public class matAdapter extends BaseAdapter{
+
+
 
         private final static int resId = R.layout.matlist_item;
         private List<matItem> list;

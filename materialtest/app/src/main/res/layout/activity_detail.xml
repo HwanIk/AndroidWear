@@ -26,58 +26,68 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ffffa418"
+        android:background="@drawable/bg_detail_icon"
+        android:orientation="horizontal"
         android:gravity="center">
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/like_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="15dp">
+            android:layout_height="30dp"
+            android:layout_marginRight="60dp"
+            android:onClick="onClick">
             <ImageView
                 android:id="@+id/like_img"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/like_icon"/>
             <TextView
+                android:id="@+id/like_ctn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="40dp"
-                android:paddingTop="20dp"
-                android:text="10"/>
-        </RelativeLayout>
-        <RelativeLayout
+                android:layout_gravity="bottom"
+                android:textColor="#ffa9a9a9"
+                android:layout_marginLeft="0dp"
+                android:text="0"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/comment_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="15dp">
+            android:layout_height="30dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="60dp"
+            android:onClick="onClick">
             <ImageView
                 android:id="@+id/comment_img"
-                android:layout_width="35dp"
-                android:layout_height="40dp"
-                android:src="@drawable/comment"/>
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/comment_icon"/>
             <TextView
+                android:id="@+id/comment_ctn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="40dp"
-                android:paddingTop="20dp"
-                android:text="10"/>
-        </RelativeLayout>
-        <RelativeLayout
+                android:textColor="#ffa9a9a9"
+                android:layout_gravity="bottom"
+                android:text="0"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/share_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginRight="15dp">
+            android:layout_height="30dp"
+            android:layout_marginTop="1dp"
+            android:onClick="onClick">
             <ImageView
                 android:id="@+id/share_img"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/share_icon"/>
             <TextView
+                android:id="@+id/share_ctn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="40dp"
-                android:paddingTop="20dp"
-                android:text="10"/>
-        </RelativeLayout>
+                android:textColor="#ffa9a9a9"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="-5dp"
+                android:text="0"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

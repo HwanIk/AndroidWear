@@ -1,4 +1,5 @@
 <resources>
+    <string name="facebook_app_id">810766125683106</string>
     <string name="app_name">materialtest</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -15,11 +16,11 @@
         <item>Tab 3</item>
     </string-array>
     <string name="title_activity_splash">Splash</string>
-    <string name="facebook_app_id">461714007312357</string>
     <string name="title_activity_sign_in">SignIn</string>
     <string name="title_activity_upload_page">UploadPage</string>
     <string name="title_activity_add_step">AddStep</string>
     <string name="title_activity_detail">Detail</string>
     <string name="title_activity_my_page">myPage</string>
     <string name="title_activity_make_step">makeStep</string>
+    <string name="title_activity_detail_view">DetailView</string>
 </resources>

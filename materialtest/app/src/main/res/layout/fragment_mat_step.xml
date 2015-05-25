@@ -3,12 +3,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/matStep_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
         <RelativeLayout
             android:id="@+id/title_container"
             android:layout_width="match_parent"
@@ -27,7 +21,7 @@
                 android:id="@+id/matStep_title"
                 android:layout_marginTop="40dp"
                 android:layout_marginLeft="50dp"
-                android:textSize="25sp"
+                android:textSize="28sp"
                 android:text="제목입니다"
                 android:textColor="#ffffff"
                 android:layout_width="wrap_content"
@@ -41,16 +35,24 @@
                 android:layout_marginTop="10dp">
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/bg_upload_edittext">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/clock_icon"/>
                     <com.rengwuxian.materialedittext.MaterialEditText
-                        android:layout_width="70dp"
+                        android:id="@+id/time"
+                        android:layout_width="25dp"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:gravity="center"
                         app:met_baseColor="#ffffed00"
                         app:met_primaryColor="#ffffed00"
-                        app:met_iconLeft="@drawable/clock_icon"
-                        app:met_iconPadding="-3dp"
                         app:met_hideUnderline="true"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -61,16 +63,22 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp">
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/bg_upload_edittext">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/nman_icon"/>
                     <com.rengwuxian.materialedittext.MaterialEditText
-                        android:layout_width="70dp"
+                        android:id="@+id/man"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:gravity="center"
                         app:met_baseColor="#ffffed00"
                         app:met_primaryColor="#ffffed00"
-                        app:met_iconLeft="@drawable/man_icon"
-                        app:met_iconPadding="-3dp"
                         app:met_hideUnderline="true"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -80,6 +88,7 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/mat_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/timeNman"
@@ -87,6 +96,7 @@
                 android:layout_marginTop="30dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/secondTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -101,16 +111,34 @@
                 </ListView>
                 <ImageView
                     android:id="@+id/addMat"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="120dp"
+                    android:src="@drawable/plus_icon1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mat_container"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/tip"/>
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/tip"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/plus_icon"/>
+                    android:layout_marginLeft="10dp"
+                    android:hint="팁이 있으면 적어주세요"
+                    android:textColorHint="#ffe0e0e0"
+                    android:textSize="15sp"
+                    app:met_baseColor="#ffffffff"
+                    app:met_primaryColor="#ffffffff"
+                    app:met_hideUnderline="true"/>
             </LinearLayout>
         </RelativeLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"/>
-    </LinearLayout>
 </LinearLayout>

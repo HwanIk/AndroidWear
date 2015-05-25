@@ -25,10 +25,10 @@
                 layout="@layout/app_bar" />
 
         </LinearLayout>
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="2dp">
+            android:foreground="?android:windowContentOverlay">
             <it.neokree.materialtabs.MaterialTabHost
                 android:id="@+id/materialTabHost"
                 android:layout_width="match_parent"
@@ -36,12 +36,17 @@
                 android:layout_below="@+id/app_bar"
                 app:accentColor="@color/colorAccent"
                 app:hasIcons="true"
-                app:iconColor="@android:color/white"
+                app:iconColor="#ffa6a6a6"
                 app:primaryColor="@color/colorPrimary" />
-        </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:windowContentOverlay">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
@@ -56,6 +61,7 @@
                 android:layout_marginBottom="20dp"
                 android:src="@drawable/top_icon"/>
         </RelativeLayout>
+        </FrameLayout>
     </LinearLayout>
     <fragment
         android:id="@+id/fragment_navigation_drawer"

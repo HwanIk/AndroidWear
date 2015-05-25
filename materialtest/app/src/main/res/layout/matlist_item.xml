@@ -8,11 +8,14 @@
     android:gravity="center">
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp">
     <EditText
         android:id="@+id/mat_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="30dp"
+        android:gravity="center"
         android:background="@drawable/bg_corner_mat"
         android:padding="5dp"
         android:textSize="15sp"
@@ -22,8 +25,9 @@
         android:hint="재료입력"/>
     <EditText
         android:id="@+id/mat_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
         android:background="@drawable/bg_corner_mat"
         android:padding="5dp"
         android:textSize="15sp"
@@ -33,8 +37,9 @@
         android:hint="수량"/>
     <EditText
         android:id="@+id/mat_unit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
         android:background="@drawable/bg_corner_mat"
         android:padding="5dp"
         android:textSize="15sp"

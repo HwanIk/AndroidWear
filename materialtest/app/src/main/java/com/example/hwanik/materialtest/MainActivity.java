@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +15,16 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -29,37 +37,43 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     private MyPagerAdapter mAdapter;
     private MaterialTabHost mTabHost;
     private String[] pagerTitle;
+    private ImageView topBtn;
 
+    private List<Fragment> Flist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //      setContentView(R.layout.activity_main_appbar); 이 코드는 툴바를 넘지 않는 drawerlayout을 적용시키는 코드.
-
         setTitle("오늘의 레시피");
 
         //edittext검색하려고 키보드 띄우면 하단탭이 올라오는 현상을 막아주는 코드드
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
+//        ParseFacebookUtils.initialize("810766125683106");
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         toolbar=(Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Home버튼 생성
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /* Navigation Drawer Bar
         NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
+        */
+        Flist=new ArrayList<Fragment>();
 
-        pagerTitle=new String[5];
+        pagerTitle=new String[4];
         pagerTitle[0]="오늘의 레시피";
         pagerTitle[1]="카테고리";
-        pagerTitle[2]="레시피 작성";
-        pagerTitle[3]="요리 검색";
-        pagerTitle[4]="내 정보";
+        pagerTitle[2]="요리 검색";
+        pagerTitle[3]="내 정보";
 
         mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
         mPager=(ViewPager)findViewById(R.id.pager);
@@ -83,6 +97,16 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                             .setIcon(mAdapter.getIcon(i))
                             .setTabListener(this));
         }
+
+        topBtn=(ImageView)findViewById(R.id.go_top);
+        topBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirstPage tmp=(FirstPage)Flist.get(0);
+                tmp.goTop();
+                Flist.set(0,tmp);
+            }
+        });
     }
 
 
@@ -104,13 +128,20 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         if (id == R.id.action_settings) {
             return true;
         }
-        if(id==R.id.navigate){
+        if(id==R.id.post_Btn){
             /*
             ParseUser.logOut();
             Intent intent=new Intent(this,SignIn.class);
             startActivity(intent);
             finish();*/
             Intent intent=new Intent(this,UploadPage.class);
+            startActivity(intent);
+        }
+
+        if(id==R.id.logout){
+            ParseUser.logOut();
+            finish();
+            Intent intent=new Intent(this, SignIn.class);
             startActivity(intent);
         }
 
@@ -138,8 +169,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         이전 Fragment를 메모리 상에 저장해 만일 사용자가 화면을 반대로 이동하면 메모리 상에 저장되어있는 Fragment를 사용하게된다.*/
     public class MyPagerAdapter extends FragmentPagerAdapter{
         int icons[]={R.drawable.cook_icon,R.drawable.menu_icon,
-                R.drawable.post_icon,
-                R.drawable.search_icon,R.drawable.my_icon};
+                R.drawable.search_icon,R.drawable.man_icon};
         String[] tabText=getResources().getStringArray(R.array.tabs);
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -155,25 +185,26 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             switch (position) {
                 case 0:
                     current = new FirstPage();
+                    Flist.add(current);
                     break;
                 case 1:
                     current = new ThirdPage();
+                    Flist.add(current);
                     break;
                 case 2:
                     current = new SecondPage();
+                    Flist.add(current);
                     break;
-                case 4:
+                case 3:
                     current = new myPage();
-                    break;
-                default:
-                    current = new SecondPage();
+                    Flist.add(current);
                     break;
             }
             return current;
         }
 
         @Override
-        public int getCount() { return 5; }
+        public int getCount() { return 4; }
 
         //      String.xml에 저장해놓은 값을 PageTitle로 가져온다.
         @Override

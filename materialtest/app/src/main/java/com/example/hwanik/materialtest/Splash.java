@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 
@@ -19,6 +22,8 @@ public class Splash extends ActionBarActivity {
         setContentView(R.layout.activity_splash);
 
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
+        //ParseFacebookUtils.initialize("810766125683106");
+        //FacebookSdk.sdkInitialize(getApplicationContext());
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {

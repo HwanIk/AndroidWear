@@ -8,14 +8,16 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     -->
-    <item android:id="@+id/navigate"
+    <item android:id="@+id/post_Btn"
         android:title="@string/next"
         android:orderInCategory="200"
+        android:icon="@drawable/post_icon"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/logout"
         android:icon="@drawable/ic_action_home"
-        app:showAsAction="always"/>
-    <item android:id="@+id/search"
-        android:title="@string/next"
-        android:orderInCategory="200"
-        android:icon="@drawable/ic_action_personal"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:title="logout" />
+
 </menu>
