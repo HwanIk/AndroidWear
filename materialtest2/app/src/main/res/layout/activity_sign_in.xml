@@ -1,37 +1,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/signinContainer"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.antonioleiva.wearcook.signIn"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/splash">
+    android:gravity="center_horizontal"
+    android:background="@drawable/signin">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"></LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="0dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="10dp"
-        >
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="5dp">
         <EditText
             android:id="@+id/logUserName"
-            android:layout_width="270dp"
+            android:layout_width="250dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="0dp"
-            android:background="#0000"
-            android:textSize="15sp"
+            android:paddingLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/login_edit"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ff9a9a9a"
             android:hint="아이디를 입력하세요"/>
         <EditText
             android:id="@+id/logPassword"
-            android:layout_width="270dp"
+            android:layout_width="250dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:background="#0000"
-            android:textSize="15sp"
+            android:paddingLeft="5dp"
+            android:background="@drawable/login_edit"
+            android:textSize="13sp"
+            android:textColor="#ffffff"
+            android:textColorHint="#ff9a9a9a"
+            android:password="true"
             android:hint="비밀번호를 입력하세요"/>
     </LinearLayout>
     <LinearLayout
@@ -40,26 +47,27 @@
         android:orientation="vertical">
         <ImageView
             android:id="@+id/sign_in"
-            android:layout_width="270dp"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:padding="0dp"
-            android:src="@drawable/btn_login"
+            android:src="@drawable/login"
             android:layout_gravity="center"
             android:onClick="btn_login"/>
         <ImageView
-            android:layout_width="60dp"
+            android:id="@+id/goSignIn"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:src="@drawable/signup"
-            android:onClick="sign_up"/>
+            android:src="@drawable/signin_img"
+            android:onClick="sign_up"
+            android:layout_marginBottom="20dp"/>
         <ImageView
-            android:layout_width="270dp"
+            android:id="@+id/fbLoginBtn"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:padding="0dp"
-            android:src="@drawable/btn_fb"
+            android:src="@drawable/facebook_login"
             android:layout_gravity="center"
             android:onClick="login_facebook"/>
     </LinearLayout>
-
-
 </LinearLayout>

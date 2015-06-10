@@ -7,4 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorHighlight</item>
     </style>
+    <style name="FacebookLoginButton">
+        <item name="android:background">@drawable/facebook_login</item>
+    </style>
 </resources>

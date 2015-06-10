@@ -1,47 +1,47 @@
 package com.example.hwanik.materialtest;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
-public class MainActivity extends ActionBarActivity implements MaterialTabListener, View.OnClickListener {
+public class MainActivity extends ActionBarActivity implements MaterialTabListener {
 
     private Toolbar toolbar;
+    private TextView toolbarTitle;
     private ViewPager mPager;
     private MyPagerAdapter mAdapter;
-    private SlidingTabLayout mTabs;
     private MaterialTabHost mTabHost;
-    private static final String TAG_SORT_NAME = "sortName";
-    //tag associated with the FAB menu button that sorts by date
-    private static final String TAG_SORT_DATE = "sortDate";
-    //tag associated with the FAB menu button that sorts by ratings
-    private static final String TAG_SORT_RATINGS = "sortRatings";
-
+    private String[] pagerTitle;
+    private ImageView topBtn;
+    private Typeface typeface;
+    private List<Fragment> Flist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,29 +49,51 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 //      setContentView(R.layout.activity_main_appbar); 이 코드는 툴바를 넘지 않는 drawerlayout을 적용시키는 코드.
 
         //edittext검색하려고 키보드 띄우면 하단탭이 올라오는 현상을 막아주는 코드드
-       getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
+//        ParseFacebookUtils.initialize("810766125683106");
 
+        setTitle("");
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/NanumBarunGothic.otf");
         toolbar=(Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        toolbarTitle=(TextView)toolbar.findViewById(R.id.toolbarTitle);
+        toolbarTitle.setTypeface(typeface);
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //Home버튼 생성
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /* Navigation Drawer Bar
         NavigationDrawerFragment drawerFragment=(NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer,(DrawerLayout)findViewById(R.id.drawer_layout),toolbar);
+        */
+        Flist=new ArrayList<Fragment>();
+
+        pagerTitle=new String[4];
+        pagerTitle[0]="오늘의 레시피";
+        pagerTitle[1]="카테고리";
+        pagerTitle[2]="요리 검색";
+        pagerTitle[3]="내 정보";
 
         mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
         mPager=(ViewPager)findViewById(R.id.pager);
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
+
+        mPager.setOffscreenPageLimit(4);
+        //Viewpager - The specified child already has a parent. 에러를 발생시키는 것에 대한 해결 방법
+
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 mTabHost.setSelectedNavigationItem(position);
-
+                topBtn.setVisibility(View.GONE);
+                toolbarTitle.setText(pagerTitle[position]);
             }
         });
         //Add all the Tabs to the TabHost
@@ -82,6 +104,15 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                             .setTabListener(this));
         }
 
+        topBtn=(ImageView)findViewById(R.id.go_top);
+        topBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirstPage tmp=(FirstPage)Flist.get(0);
+                tmp.goTop();
+                Flist.set(0,tmp);
+            }
+        });
     }
 
 
@@ -103,13 +134,20 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         if (id == R.id.action_settings) {
             return true;
         }
-        if(id==R.id.navigate){
+        if(id==R.id.post_Btn){
             /*
             ParseUser.logOut();
             Intent intent=new Intent(this,SignIn.class);
             startActivity(intent);
             finish();*/
             Intent intent=new Intent(this,UploadPage.class);
+            startActivity(intent);
+        }
+
+        if(id==R.id.logout){
+            ParseUser.logOut();
+            finish();
+            Intent intent=new Intent(this, SignIn.class);
             startActivity(intent);
         }
 
@@ -131,32 +169,13 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     }
 
-    @Override
-    public void onClick(View view) {
-        //call instantiate item since getItem may return null depending on whether the PagerAdapter is of type FragmentPagerAdapter or FragmentStatePagerAdapter
-        Fragment fragment = (Fragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
-        if (fragment instanceof SortListener) {
 
-            if (view.getTag().equals(TAG_SORT_NAME)) {
-                //call the sort by name method on any Fragment that implements sortlistener
-                ((SortListener) fragment).onSortByName();
-            }
-            if (view.getTag().equals(TAG_SORT_DATE)) {
-                //call the sort by date method on any Fragment that implements sortlistener
-                ((SortListener) fragment).onSortByDate();
-            }
-            if (view.getTag().equals(TAG_SORT_RATINGS)) {
-                //call the sort by ratings method on any Fragment that implements sortlistener
-                ((SortListener) fragment).onSortByRating();
-            }
-        }
-    }
 
     /*  FragmentPagerAdapter의 경우, 사용자가 ViewPager에서 좌/우로 스크롤(플링)하여 화면 전환을 하여 다음 Fragment가 표시되면
         이전 Fragment를 메모리 상에 저장해 만일 사용자가 화면을 반대로 이동하면 메모리 상에 저장되어있는 Fragment를 사용하게된다.*/
     public class MyPagerAdapter extends FragmentPagerAdapter{
-        int icons[]={R.drawable.cook,R.drawable.ic_action_search,
-                R.drawable.menu,R.drawable.write,R.drawable.my};
+        int icons[]={R.drawable.cook_icon,R.drawable.menu_icon,
+                R.drawable.search_icon,R.drawable.man_icon};
         String[] tabText=getResources().getStringArray(R.array.tabs);
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -172,16 +191,26 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             switch (position) {
                 case 0:
                     current = new FirstPage();
+                    Flist.add(current);
                     break;
                 case 1:
+                    current = new ThirdPage();
+                    Flist.add(current);
+                    break;
+                case 2:
                     current = new SecondPage();
+                    Flist.add(current);
+                    break;
+                case 3:
+                    current = new myPage();
+                    Flist.add(current);
                     break;
             }
             return current;
         }
 
         @Override
-        public int getCount() { return 5; }
+        public int getCount() { return 4; }
 
         //      String.xml에 저장해놓은 값을 PageTitle로 가져온다.
         @Override
@@ -198,25 +227,5 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             return getResources().getDrawable(icons[position]);
         }
 
-    }
-    public static class MyFragment extends Fragment{
-        private TextView textView;
-        public static MyFragment getInstance(int position){
-            MyFragment myFragment=new MyFragment();
-            Bundle args=new Bundle();
-            args.putInt("position",position);
-            myFragment.setArguments(args);
-            return myFragment;
-        }
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-            View layout=inflater.inflate(R.layout.fragment_my,container,false);
-            textView=(TextView)layout.findViewById(R.id.position);
-            Bundle bundle=getArguments();
-            if(bundle != null){
-                textView.setText("The page Selected is Fuck you" + bundle.getInt("position"));
-            }
-            return layout;
-        }
     }
 }

@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hwanik.materialtest.makeStep">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/step_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_bar">
+        </android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:id="@+id/pre_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical">
+            <ImageView
+                android:id="@+id/pre_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pre_icon"
+                android:visibility="gone"
+                android:onClick="pre_btn"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/next_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical">
+            <ImageView
+                android:id="@+id/next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/next_icon"
+                android:onClick="next_btn"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

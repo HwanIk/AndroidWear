@@ -1,41 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:text="재료,스텝추가 - addStep 액티비티"
-        android:textSize="20dp"
+    <include
+        layout="@layout/app_bar"
+        android:id="@+id/app_bar"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="210dp">
-        <ImageView
-            android:src="@drawable/ic_launcher"
-            android:id="@+id/addStep_postTitle_image"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/title_container"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
-        <TextView
-            android:layout_alignBottom="@+id/addStep_postTitle_image"
-            android:id="@+id/addStep_postTitle_title"
-            android:layout_marginBottom="26dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
-            android:text="제목입니다"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_alignBottom="@+id/addStep_postTitle_image"
-            android:id="@+id/addStep_postTitle_subTitle"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="14dp"
-            android:text="소제목입니다 블라블라"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_upload_edittext">
+            <ImageView
+                android:id="@+id/addStep_postTitle_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="#64000000"/>
+            <TextView
+                android:id="@+id/addStep_postTitle_title"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="25sp"
+                android:text="제목입니다"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/addStep_postTitle_subTitle"
+                android:layout_marginTop="55dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="18sp"
+                android:text="소제목입니다 블라블라"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/next_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical">
+                <ImageView
+                    android:id="@+id/pre_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pre_icon"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/pre_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical">
+                <ImageView
+                    android:id="@+id/next_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/next_icon"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

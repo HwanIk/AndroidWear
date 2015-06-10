@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.hwanik.materialtest.settingPage">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"/>
+        <ListView
+            android:id="@+id/setting_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+</LinearLayout>

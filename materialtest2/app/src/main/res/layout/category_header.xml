@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d3d6db">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#ffff972d"
+        android:padding="5dp">
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingRight="15dp">-->
+
+        <!-- ImageView의 height를 어떻게 해야 할 지 모르겠어요.-->
+
+        <ImageView
+            android:id="@+id/category_topImg"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/bg_parent_rounded_corner"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            />
+        <!-- TextView의 marginTop에서 값을 지정해줬는데 이 값을 뭔가 %로 지정해주는게 없나..모르겠네요  -->
+        <!-- weight는 리니어레이아웃에서만 쓸 수 있는 것 같아요 -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@+id/category_topImg"
+            android:background="#64000000"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:layout_alignBottom="@+id/category_topImg">
+            <ImageView
+                android:id="@+id/best"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/weeklybest1"/>
+            <TextView
+                android:id="@+id/category_topSub"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="subTitle"
+                android:textSize="15sp"
+                android:textColor="#ffebf2ff"/>
+            <TextView
+                android:text="Title"
+                android:id="@+id/category_topTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:textSize="25sp"
+                android:textColor="#ffebf2ff"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
