@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Joseph</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="class1">다니엘반</string>
+    <string name="class2">모세반</string>
+    <string name="class3">여호수아반</string>
+</resources>
