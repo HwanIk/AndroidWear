@@ -88,7 +88,7 @@ public class FirstPage extends Fragment {
                         objectId = list.get(pos).objectId;
                         /////////////////////////////////////////////////////////////////////////////////
                         ParseQuery<ParseObject> query = ParseQuery.getQuery("test1");
-                        query.whereEqualTo("objectId",objectId);
+                        query.whereEqualTo("objectId", objectId);
                         query.findInBackground(new FindCallback<ParseObject>() {
                             public void done(List<ParseObject> parseObjects, ParseException e) {
                                 if (e == null) {
@@ -174,7 +174,7 @@ public class FirstPage extends Fragment {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("test1");
 
         query.orderByDescending("updatedAt");
-
+        query.setLimit(10);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {

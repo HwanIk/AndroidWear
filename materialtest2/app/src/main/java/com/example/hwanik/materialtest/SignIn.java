@@ -22,8 +22,6 @@ import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
-
-
 public class SignIn extends FragmentActivity {
 
     //로그인에 관련된 변수들
@@ -32,7 +30,7 @@ public class SignIn extends FragmentActivity {
     String userNameTxt;
     String passwordTxt;
     ImageView loginBtn;
-    ImageView signUnBtn;
+    TextView signUnBtn;
     Typeface typeface;
     ProgressDialog dialog;
     private int CHECK_SIGNUP=11;
@@ -88,7 +86,7 @@ public class SignIn extends FragmentActivity {
                 }
             }
         });
-        signUnBtn=(ImageView)findViewById(R.id.goSignIn);
+        signUnBtn=(TextView)findViewById(R.id.goSignUp);
         signUnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,9 +98,10 @@ public class SignIn extends FragmentActivity {
     }
     public void login_facebook(View view) {
         dialog = ProgressDialog.show(SignIn.this, "페이스북 계정 확인중", "잠시만 기다려주세요", true, true);
+
         ParseFacebookUtils.logIn(this, new LogInCallback() {
             @Override
-            public void done(ParseUser parseUser, com.parse.ParseException e) {
+            public void done(ParseUser parseUser, ParseException err) {
                 if (parseUser == null) {
                     Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
                     dialog.dismiss();
@@ -119,7 +118,6 @@ public class SignIn extends FragmentActivity {
             }
         });
     }
-
     //사용자 기기에 Facebook 앱이 설치되어 있지 않은 경우 기본 대화상자 기반 인증을 하는 함수. 이 기능을 SSO(Single-Sign On)이라고 한다.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -132,12 +130,6 @@ public class SignIn extends FragmentActivity {
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
     }
-    //회원가입으로 이동하는 함수
-    public void sign_up(View view) {
-        //Intent intent=new Intent(this,signUp.class);
-        //startActivity(intent);
-    }
-
     void setGlobalFont(ViewGroup root) {
         for (int i = 0; i < root.getChildCount(); i++) {
             View child = root.getChildAt(i);
@@ -147,8 +139,6 @@ public class SignIn extends FragmentActivity {
                 setGlobalFont((ViewGroup)child);
         }
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -169,5 +159,9 @@ public class SignIn extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void signUp(View view) {
+        Toast.makeText(this,"asdf",Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(this,SignUp.class);
+        startActivity(intent);
+    }
 }

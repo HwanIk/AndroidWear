@@ -144,12 +144,12 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             startActivity(intent);
         }
 
-        if(id==R.id.logout){
-            ParseUser.logOut();
-            finish();
-            Intent intent=new Intent(this, SignIn.class);
-            startActivity(intent);
-        }
+//        if(id==R.id.logout){
+//            ParseUser.logOut();
+//            finish();
+//            Intent intent=new Intent(this, SignIn.class);
+//            startActivity(intent);
+//        }
 
         return super.onOptionsItemSelected(item);
     }

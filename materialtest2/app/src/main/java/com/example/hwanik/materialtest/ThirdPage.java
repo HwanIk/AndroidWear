@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -72,11 +73,13 @@ public class ThirdPage extends Fragment {
         return view;
     }
     class Category{
+        public int title_img;
         public String title;
         public Category(){
 
         }
-        public Category(String title){
+        public Category(String title, int title_img){
+            this.title_img=title_img;
             this.title=title;
         }
     }
@@ -90,12 +93,12 @@ public class ThirdPage extends Fragment {
             super();
             this.context = context;
             this.list = list;
-            this.list.add(new Category("한식"));
-            this.list.add(new Category("양식"));
-            this.list.add(new Category("중식/일식"));
-            this.list.add(new Category("분식류/간식"));
-            this.list.add(new Category("베이커리"));
-            this.list.add(new Category("디저트"));
+            this.list.add(new Category("한식",R.drawable.korean_foods));
+            this.list.add(new Category("양식",R.drawable.american_foods));
+            this.list.add(new Category("중식/일식",R.drawable.sea_foods));
+            this.list.add(new Category("분식류/간식",0));
+            this.list.add(new Category("베이커리",R.drawable.bakery_foods));
+            this.list.add(new Category("디저트",R.drawable.dessert));
         }
         @Override
         public int getCount() {
@@ -126,12 +129,13 @@ public class ThirdPage extends Fragment {
             }
 
             TextView tv = (TextView)v.findViewById(R.id.category_title);
-
+            ImageView iv = (ImageView)v.findViewById(R.id.category_title_img);
             tv.setTypeface(typeface);
             tv.setTag(category);
 
             tv.setText(category.title);
-
+            iv.setImageResource(category.title_img);
+            iv.setTag(category);
             return v;
         }
     }

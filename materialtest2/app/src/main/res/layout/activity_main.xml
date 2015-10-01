@@ -36,7 +36,7 @@
                 android:layout_below="@+id/app_bar"
                 app:accentColor="@color/colorAccent"
                 app:hasIcons="true"
-                app:iconColor="#ffffbe33"
+                app:iconColor="#66c2a9"
                 app:primaryColor="@color/colorPrimary" />
         </FrameLayout>
         <FrameLayout
@@ -59,7 +59,7 @@
                 android:layout_alignRight="@+id/pager"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/top_icon"/>
+                android:src="@drawable/top"/>
         </RelativeLayout>
         </FrameLayout>
     </LinearLayout>

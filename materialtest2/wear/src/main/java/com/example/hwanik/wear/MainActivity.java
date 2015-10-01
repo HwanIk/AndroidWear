@@ -57,6 +57,8 @@ public class MainActivity extends Activity implements SensorEventListener,Google
         GoogleApiClient.OnConnectionFailedListener,
         NodeApi.NodeListener,
         MessageApi.MessageListener,DataApi.DataListener {
+
+
     // 센서 관련 객체
     SensorManager m_sensor_manager;
     Sensor m_accelerometer;
@@ -108,6 +110,9 @@ public class MainActivity extends Activity implements SensorEventListener,Google
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // 구글 플레이 서비스 객체를 시계 설정으로 초기화
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
@@ -181,7 +186,7 @@ public class MainActivity extends Activity implements SensorEventListener,Google
             noti = "알림";
             receiveStringArray = new String[receiveCount];
             backgroundImage = new Drawable[receiveCount];
-            receiveStringArray[0] = "스마트폰을 통해 앱을 실행시켜주십시오.";
+            receiveStringArray[0] = "스마트폰을 통해 앱을 실행시켜주세요.";
             backgroundImage[0] = getResources().getDrawable(R.drawable.common_signin_btn_icon_focus_light);
         }
         // 페이저의 속성과 페이지 리스트를 담고 있는 어답터를 추가한다.
@@ -204,7 +209,7 @@ public class MainActivity extends Activity implements SensorEventListener,Google
             //여기만 조작하면 될듯
             public void onPageSelected(int i, int i2) {
                 if(recipeTimer[i2]>0){
-                    TimerStart(recipeTimer[i2]);
+                    //TimerStart(recipeTimer[i2]);
                 }
                 movePager(i2);
             }
@@ -235,6 +240,7 @@ public class MainActivity extends Activity implements SensorEventListener,Google
             @Override
             public void onFinish() {
                 vibe.vibrate(1000);
+                Toast.makeText(getApplicationContext(),"타이머가 완료되었습니다.",Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -266,8 +272,8 @@ public class MainActivity extends Activity implements SensorEventListener,Google
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
             if(currentPage!=0){
-                //pager.setCurrentItem(0,currentPage);
-                pager.setCurrentItem(0,0);
+                pager.setCurrentItem(0,currentPage-2);
+                //pager.setCurrentItem(0,0);
                 page.notifyDataSetChanged();
                 currentPage=0;
             }
@@ -291,7 +297,7 @@ public class MainActivity extends Activity implements SensorEventListener,Google
 
             //★ 이부분 ★ //
             //담스텝 (Next)
-            if (m_accel_data[1] < -7 && m_accel_data[2]<-5 && accel_state>5) {
+            if (m_accel_data[1] < -7 && m_accel_data[2]<-7 && accel_state>5) {
                 accel_state = 0;
                 Point cur = pager.getCurrentItem();
                 if (cur.x < page.getColumnCount(0)) {
@@ -457,6 +463,26 @@ public class MainActivity extends Activity implements SensorEventListener,Google
                     pager.setCurrentItem(0, pagerPosition);
 
                     page.notifyDataSetChanged();
+                }
+            });
+        }
+        else if(messageEvent.getPath().equals("/COUNTDOWN")){
+            final String countdown=new String(messageEvent.getData(),0,messageEvent.getData().length);
+            final String unit=countdown.substring(0,1);
+            final String num=countdown.substring(1,countdown.length());
+
+            final int tmp = Integer.parseInt(num);
+            int count=0;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(Integer.parseInt(unit)==0){
+                        TimerStart(tmp);
+                    }else if(Integer.parseInt(unit)==1){
+                        TimerStart(tmp*60);
+                    }else if(Integer.parseInt(unit)==2){
+                        TimerStart(tmp*3600);
+                    }
                 }
             });
         }

@@ -2,16 +2,20 @@ package com.example.hwanik.materialtest;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
@@ -24,27 +28,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
-
-import android.graphics.Bitmap;
-import android.graphics.drawable.*;
-import android.graphics.Typeface;
 import android.widget.Toast;
-
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -59,12 +50,21 @@ import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import me.relex.circleindicator.CircleIndicator;
 
 public class Detail extends ActionBarActivity implements SensorEventListener,GoogleApiClient.ConnectionCallbacks,
@@ -86,6 +86,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
 
     private int count=0;//§
     private int current_page;
+    private Menu menu;
 
     private int likeCnt=0;
     private int commentCnt=0;
@@ -96,7 +97,8 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
     private TextView shareTv;
     private ImageView likeImg;
     private Toolbar toolbar;
-
+    private int stepCnt;
+    private int stepCntUnit;
     private ViewPager viewPager;
     private CircleIndicator customIndicator;
 
@@ -119,6 +121,9 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        //화면 안꺼지는거
+        getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         countInt1=0;
         user=ParseUser.getCurrentUser().getUsername();
 
@@ -128,6 +133,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
         objectId=intent.getStringExtra("objectId");//§
 
         countLike();
+        countComment();
 
         count = intent.getIntExtra("count",-1);//§
         imgUrl=new String[count];
@@ -165,10 +171,10 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
             adapter.add(new DetailStep(imgUrl[i],content[i],i+1));
             adapter.notifyDataSetChanged();
         }
-
         //circleIndicator 뷰페이저를 먼저 set Adapter한 후에 연결시켜줘야 한다.
         customIndicator=(CircleIndicator)findViewById(R.id.indicator_default);
         customIndicator.setViewPager(viewPager);
+
 
         //wear Initialize
         // Build a new GoogleApiClient for the Wearable API
@@ -180,6 +186,27 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
 
     }
 
+    private void countComment(){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("test1");
+        query.whereEqualTo("objectId", objectId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> commentList, ParseException e) {
+                if (e == null) {
+                    int test;
+                    try{
+                        test = commentList.get(0).getJSONArray("commentContentArray").length();
+                        Log.d("d","d");
+                    }
+                    catch (NullPointerException e1){
+                        test = 0;
+                    }
+
+                    commentTv.setText(Integer.toString(test));
+                } else {
+                }
+            }
+        });
+    }
     private void countLike() {
         innerQuery = ParseQuery.getQuery("test1");
         innerQuery.whereEqualTo("objectId", objectId);
@@ -212,6 +239,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
@@ -230,9 +258,98 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
         //noinspection SimplifiableIfStatement
         if (id == R.id.sendToWear) {
             onSendDataString();
+            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.clock_active));
+            viewPager.setCurrentItem(2);
+            return true;
+        }
+        if (id == R.id.choicetime){
+            drawDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void drawDialog() {
+        List<categoryItem> list=new ArrayList<>();
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Detail.this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.detail_set_time, null);
+        TextView title=(TextView)convertView.findViewById(R.id.countdown);
+        title.setTypeface(typeface);
+        alertDialog.setView(convertView);
+
+        NumberPicker np1=(NumberPicker)convertView.findViewById(R.id.timePicker);
+        String[] values=new String[3];
+        values[0]="초";
+        values[1]="분";
+        values[2]="시";
+        np1.setMaxValue(values.length-1);
+        np1.setMinValue(0);
+        np1.setDisplayedValues(values);
+        stepCntUnit= np1.getValue();
+
+        NumberPicker np=(NumberPicker)convertView.findViewById(R.id.numberPicker);
+        np.setMinValue(0);
+        np.setMaxValue(59);
+        np.setWrapSelectorWheel(true);
+
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // TODO Auto-generated method stub
+                stepCnt=newVal;
+            }
+        });
+        np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                // TODO Auto-generated method stub
+                stepCntUnit= newVal;
+            }
+        });
+        alertDialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Wearable.NodeApi.getConnectedNodes(googleClient)
+                        .setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+
+                            // 노드를 가져온 후 실행된다.
+                            @Override
+                            public void onResult(NodeApi.GetConnectedNodesResult
+                                                         getConnectedNodesResult) {
+
+                                // 노드를 순회하며 메시지를 전송한다.
+                                for (final Node node : getConnectedNodesResult.getNodes()) {
+
+                                    // 전송할 메시지 텍스트 생성
+                                    String message = String.valueOf(stepCntUnit)+String.valueOf(stepCnt);
+                                    byte[] bytes = message.getBytes();
+
+                                    // 메시지 전송 및 전송 후 실행 될 콜백 함수 지정
+                                    Wearable.MessageApi.sendMessage(googleClient,
+                                            node.getId(), "/COUNTDOWN", bytes)
+                                            .setResultCallback(resultCallback);
+                                }
+                            }
+                        });
+            }
+        });
+
+
+        Dialog dialog = alertDialog.create();
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = 800;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setAttributes(lp);
+        //alertDialog.show();
     }
 
     // 앱을 실행시키고 데이터를 보낸다!
@@ -289,6 +406,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
         dataMap.getDataMap().putStringArray("content",content); // step string 배열을 dataMap에 삽입해주기.
         dataMap.getDataMap().putInt("stepCount",count); // step의 수를 dataMap에 삽입.
         dataMap.getDataMap().putInt("currentPage",currentPage);
+
         // 현재 보내는 텍스트와 지난번 보냈던 텍스트가 같으면
         // onDataChanged() 메소드가 실행되지 않는다.
         // 텍스트가 같더라도 데이터가 계속 변할 수 있도록 count 값을 같이 보낸다.
@@ -332,7 +450,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
 
             String resultString = "Sending Result : " + result.getStatus();
 
-            Toast.makeText(getApplication(), resultString, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplication(), resultString, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -452,6 +570,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
                                 } else { //좋아요를 단 한번도 누르지 않은 경우.
                                     Like.put("userId", user);//TestId 나중에 user로 바꿔주세요.
                                     Like.put("foodObjectId", ParseObject.createWithoutData("test1", objectId));
+                                    Like.put("foodId", objectId);
                                     Like.put("LikeState", true);
                                     Like.saveInBackground();
                                     //onoff1.setText("true");
@@ -484,7 +603,7 @@ public class Detail extends ActionBarActivity implements SensorEventListener,Goo
                         for (final Node node : getConnectedNodesResult.getNodes()) {
 
                             // 전송할 메시지 텍스트 생성
-                            String message = Integer.toString(pagerPosition);
+                            String message = Integer.toString(pagerPosition-2);
                             byte[] bytes = message.getBytes();
 
                             // 메시지 전송 및 전송 후 실행 될 콜백 함수 지정

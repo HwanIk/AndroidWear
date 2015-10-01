@@ -1,5 +1,5 @@
 <resources>
-    <string name="facebook_app_id">810766125683106</string>
+    <string name="facebook_app_id">921527127901446</string>
     <string name="app_name">materialtest</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -28,4 +28,7 @@
     <string name="title_activity_sign_up">SignUp</string>
     <string name="title_activity_category_dialog">categoryDialog</string>
     <string name="title_activity_comment">Comment</string>
+
+    <string name="signUp"><u>가입하기</u></string>
+
 </resources>

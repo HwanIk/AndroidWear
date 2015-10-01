@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -26,12 +24,12 @@ public class Splash extends ActionBarActivity {
 
         Parse.initialize(this, "USjhdBZW0Jsm8jvedZIoc4zm0OdZRvI0lMWNoRUt", "eUkreRV5NNa6iruqmLnbpTqVG6F5Z3MZDT0bWJxo");
 
-        Session.StatusCallback callback = new Session.StatusCallback() {
-            @Override
-            public void call(Session session, SessionState state, Exception exception) {
-                onSessionStateChange(session, state, exception);
-            }
-        };
+//        Session.StatusCallback callback = new Session.StatusCallback() {
+//            @Override
+//            public void call(Session session, SessionState state, Exception exception) {
+//                onSessionStateChange(session, state, exception);
+//            }
+//        };
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -62,13 +60,13 @@ public class Splash extends ActionBarActivity {
         }
 
     }
-    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        if (state.isOpened()) {
-            Log.i(TAG, "Logged in...");
-        } else if (state.isClosed()) {
-            Log.i(TAG, "Logged out...");
-        }
-    }
+//    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+//        if (state.isOpened()) {
+//            Log.i(TAG, "Logged in...");
+//        } else if (state.isClosed()) {
+//            Log.i(TAG, "Logged out...");
+//        }
+//    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -65,6 +66,9 @@ public class CategoryDetail extends ActionBarActivity {
     private Typeface typeface;
     private TextView toolbarTitle;
 
+    private ParseFile image;
+    private String catTopOjbectId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,16 +91,138 @@ public class CategoryDetail extends ActionBarActivity {
 
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         headerView=(LinearLayout)layoutInflater.inflate(R.layout.category_header,null);
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /////////////////////////////////////////////////////////////////////////////////
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("test1");
+                query.whereEqualTo("objectId",catTopOjbectId);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                        if (e == null) {
+                            for (int i = 0; i < parseObjects.size(); i++) {
+                                Log.d("object size", String.valueOf(parseObjects.size()));
+                                int j = 1;
+                                int k = 0;
+                                count = 0;
+                                Mats[0]=parseObjects.get(i).getString("COOK_TIME");
+                                Mats[1]=parseObjects.get(i).getString("COOK_MAN");
+                                Mats[2]=parseObjects.get(i).getString("TIP");
+                                matList.clear();
+                                while(parseObjects.get(i).getString("M_NAME_"+String.valueOf(k))!=null){
+                                    //if(matCheck==false) {
+                                    matList.add(new Materials(parseObjects.get(i).getString("M_NAME_" + String.valueOf(k)),
+                                            parseObjects.get(i).getString("M_NUM_" + String.valueOf(k)),
+                                            parseObjects.get(i).getString("M_UNIT_" + String.valueOf(k))));
+                                    //}
+                                    k++;
+                                }
+                                //matCheck=true;
+                                while (parseObjects.get(i).get("step"+String.valueOf(j)+"Content") != null) { //§ (3)
+                                    if(parseObjects.get(i).get("step" + String.valueOf(j) + "Image") != null) {
+                                        image = (ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "Image");
+                                    }else{
+                                        image = null;
+                                    }
+                                    ParseFile titleImg=(ParseFile)parseObjects.get(i).get("MAIN_IMAGE");
+                                    tmpImg=titleImg.getUrl();
+                                    tmpTitle=parseObjects.get(i).getString("MAIN_TITLE");
+                                    tmpSubTitle=parseObjects.get(i).getString("SUB_TITLE");
+                                    imgUrlArray[count] = image.getUrl();
+                                    contentArray[count] = parseObjects.get(i).getString("step"+String.valueOf(j)+"Content");
+                                    count++;
+                                    j++;
+                                }
+                            }
+                            Intent intent=new Intent(getApplicationContext(), Detail.class);
+                            intent.putExtra("objectId",catTopOjbectId);
+                            intent.putExtra("TitleImg",tmpImg);
+                            intent.putExtra("Title",tmpTitle);
+                            intent.putExtra("SUB",tmpSubTitle);
+                            intent.putExtra("imgUrlArray",imgUrlArray);
+                            intent.putExtra("contentArray",contentArray);
+                            intent.putParcelableArrayListExtra("materials", matList);
+                            intent.putExtra("count",count);
+                            intent.putExtra("mats",Mats);
+                            startActivity(intent);
+                        } else {
+                            Log.d("Error",e.getMessage());
+                        }
+                    }
+                });
+            }
+        });
         gridView=(GridViewWithHeaderAndFooter)findViewById(R.id.category_lv);
         gridView.addHeaderView(headerView);
 
         categoryAdater=new MyAdapter(this,list);
         gridView.setAdapter(categoryAdater);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                objectId = list.get(i).objectId;
+                /////////////////////////////////////////////////////////////////////////////////
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("test1");
+                query.whereEqualTo("objectId", objectId);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> parseObjects, ParseException e) {
+                        if (e == null) {
+                            for (int i = 0; i < parseObjects.size(); i++) {
+                                Log.d("object size", String.valueOf(parseObjects.size()));
+                                int j = 1;
+                                int k = 0;
+                                count = 0;
+                                Mats[0] = parseObjects.get(i).getString("COOK_TIME");
+                                Mats[1] = parseObjects.get(i).getString("COOK_MAN");
+                                Mats[2] = parseObjects.get(i).getString("TIP");
+                                matList.clear();
+                                while (parseObjects.get(i).getString("M_NAME_" + String.valueOf(k)) != null) {
+                                    //if(matCheck==false) {
+                                    matList.add(new Materials(parseObjects.get(i).getString("M_NAME_" + String.valueOf(k)),
+                                            parseObjects.get(i).getString("M_NUM_" + String.valueOf(k)),
+                                            parseObjects.get(i).getString("M_UNIT_" + String.valueOf(k))));
+                                    //}
+                                    k++;
+                                }
+                                //matCheck=true;
+                                while (parseObjects.get(i).get("step" + String.valueOf(j) + "Content") != null) { //§ (3)
+                                    if (parseObjects.get(i).get("step" + String.valueOf(j) + "Image") != null) {
+                                        image = (ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "Image");
+                                    } else {
+                                        image = null;
+                                    }
+                                    ParseFile titleImg = (ParseFile) parseObjects.get(i).get("MAIN_IMAGE");
+                                    tmpImg = titleImg.getUrl();
+                                    tmpTitle = parseObjects.get(i).getString("MAIN_TITLE");
+                                    tmpSubTitle = parseObjects.get(i).getString("SUB_TITLE");
+                                    imgUrlArray[count] = image.getUrl();
+                                    contentArray[count] = parseObjects.get(i).getString("step" + String.valueOf(j) + "Content");
+                                    count++;
+                                    j++;
+                                }
+                            }
+                            Intent intent = new Intent(getApplicationContext(), Detail.class);
+                            intent.putExtra("objectId", objectId);
+                            intent.putExtra("TitleImg", tmpImg);
+                            intent.putExtra("Title", tmpTitle);
+                            intent.putExtra("SUB", tmpSubTitle);
+                            intent.putExtra("imgUrlArray", imgUrlArray);
+                            intent.putExtra("contentArray", contentArray);
+                            intent.putParcelableArrayListExtra("materials", matList);
+                            intent.putExtra("count", count);
+                            intent.putExtra("mats", Mats);
+                            startActivity(intent);
+                        } else {
+                            Log.d("Error", e.getMessage());
+                        }
+                    }
+                });
+            }
+        });
 
         catTopImg=(ImageView)headerView.findViewById(R.id.category_topImg);
         catTopTitle=(TextView)headerView.findViewById(R.id.category_topTitle);
         catTopSub=(TextView)headerView.findViewById(R.id.category_topSub);
-
         loadFromparse();
     }
 
@@ -118,6 +244,7 @@ public class CategoryDetail extends ActionBarActivity {
                             Picasso.with(getApplicationContext())
                                     .load(image.getUrl())
                                     .into(catTopImg);
+                            catTopOjbectId=parseObjects.get(i).getObjectId();
                             catTopTitle.setText(parseObjects.get(i).getString("MAIN_TITLE"));
                             catTopSub.setText(parseObjects.get(i).getString("SUB_TITLE"));
                             catTopTitle.setTypeface(typeface);

@@ -13,11 +13,4 @@
         android:orderInCategory="200"
         android:icon="@drawable/post_icon"
         app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/logout"
-        android:icon="@drawable/ic_action_home"
-        app:showAsAction="always"
-        android:title="logout" />
-
 </menu>

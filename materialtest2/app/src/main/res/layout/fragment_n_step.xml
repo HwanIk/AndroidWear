@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:text="STEP"
-                android:textColor="#ffcc01"
+                android:textColor="@color/colorAccent"
                 android:textSize="25sp"/>
 
             <EditText

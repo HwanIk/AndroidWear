@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="Step01"
             android:textSize="18sp"
-            android:textColor="#ffffe804"
+            android:textColor="#66c2a9"
             android:layout_gravity="top|center_horizontal"/>
         <TextView
             android:id="@+id/fragmentContent"

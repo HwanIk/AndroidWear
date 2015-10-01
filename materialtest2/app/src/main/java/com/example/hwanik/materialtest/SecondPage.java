@@ -189,8 +189,8 @@ public class SecondPage extends Fragment implements TextView.OnEditorActionListe
             public void onClick(View view) {
                 if(!et.getText().toString().equals("")) {
                     list.clear();
-                    makeWord();
-                    load_from_parse();
+//                  makeWord();
+                    load_from_title();
                     et.setText("");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
@@ -316,6 +316,63 @@ public class SecondPage extends Fragment implements TextView.OnEditorActionListe
         });
     }
 
+    public void load_from_title(){
+        et_text=et.getText().toString();
+        final String[] objectId = new String[1];
+        // Locate the class table named "Footer" in Parse.com
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("test1");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < parseObjects.size(); i++) {
+                        if(parseObjects.get(i).getString("MAIN_TITLE").contains(et_text)) {
+                            int j = 1;
+                            int k = 0;
+                            count = 0;
+                            objectId[0] = parseObjects.get(i).getObjectId();
+                            Mats[0] = parseObjects.get(i).getString("COOK_TIME");
+                            Mats[1] = parseObjects.get(i).getString("COOK_MAN");
+                            Mats[2] = parseObjects.get(i).getString("TIP");
+                            matList.clear();
+                            while (parseObjects.get(i).getString("M_NAME_" + String.valueOf(k)) != null) {
+                                //if(matCheck==false) {
+                                matList.add(new Materials(parseObjects.get(i).getString("M_NAME_" + String.valueOf(k)),
+                                        parseObjects.get(i).getString("M_NUM_" + String.valueOf(k)),
+                                        parseObjects.get(i).getString("M_UNIT_" + String.valueOf(k))));
+                                //}
+                                k++;
+                            }
+                            //matCheck=true;
+                            while (parseObjects.get(i).get("step" + String.valueOf(j) + "Content") != null) { //§ (3)
+                                if (parseObjects.get(i).get("step" + String.valueOf(j) + "Image") != null) {
+                                    image = (ParseFile) parseObjects.get(i).get("step" + String.valueOf(j) + "Image");
+                                } else {
+                                    image = null;
+                                }
+                                ParseFile titleImg = (ParseFile) parseObjects.get(i).get("MAIN_IMAGE");
+                                tmpImg = titleImg.getUrl();
+                                tmpTitle = parseObjects.get(i).getString("MAIN_TITLE");
+                                tmpSubTitle = parseObjects.get(i).getString("SUB_TITLE");
+                                imgUrlArray[count] = image.getUrl();
+                                contentArray[count] = parseObjects.get(i).getString("step" + String.valueOf(j) + "Content");
+                                count++;
+                                j++;
+                            }
+                            list.add(new Item(tmpImg, tmpTitle,
+                                    tmpSubTitle, parseObjects.get(i).getObjectId()));
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d("Error",e.getMessage());
+                }
+                for(int i=0;i<list.size();i++){
+                    Log.d("objectId",list.get(i).objectId);
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         //검색버튼 누르면 키보드가 자동으로 내려간다.
@@ -390,9 +447,6 @@ public class SecondPage extends Fragment implements TextView.OnEditorActionListe
             Picasso.with(context)
                     .load(item.img_url)
                     .into(iv);
-
-
-
             return v;
         }
     }
