@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:layout="@layout/fragment_navigation_drawer"
-            android:name="com.example.hwanik.materialtest.NavigationDrawerFragment"
+            android:name="com.example.hwanik.Yosee.NavigationDrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer"/>
 
     </android.support.v4.widget.DrawerLayout>

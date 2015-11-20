@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/widget_margin"
+    tools:context="com.example.hwanik.Yosee.Widget">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bakery_foods"
+        android:onClick="goToApp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="7dp"
+            android:gravity="left"
+            android:text="zzzz"
+            android:textColor="#ffffff"
+            android:textSize="22dp"/>
+        <TextView
+            android:id="@+id/subTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="11dp"
+            android:gravity="left"
+            android:text="zzzz"
+            android:textColor="#ffffff"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <!--<TextView android:id="@+id/appwidget_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true" android:text="@string/appwidget_text"-->
+        <!--android:textColor="#ffffff" android:textSize="24sp" android:textStyle="bold|italic"-->
+        <!--android:layout_margin="8dp" android:contentDescription="@string/appwidget_text"-->
+        <!--android:background="#09C" />-->
+
+</RelativeLayout>

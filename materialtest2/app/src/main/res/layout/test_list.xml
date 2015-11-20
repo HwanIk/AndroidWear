@@ -6,11 +6,11 @@
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-            <ListView
-                android:id="@+id/recent_lv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="afterDescendants" >
-            </ListView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
         </com.baoyz.widget.PullRefreshLayout>
 </LinearLayout>

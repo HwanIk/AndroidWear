@@ -1,9 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.hwanik.materialtest.Detail">
+    tools:context="com.example.hwanik.Yosee.Detail">
     <item android:id="@+id/choicetime" android:title="choice"
-        android:icon="@drawable/commentclock"
+        android:icon="@drawable/hourglass"
         app:showAsAction="always"/>
     <item android:id="@+id/sendToWear" android:title="wear"
         android:icon="@drawable/clock"

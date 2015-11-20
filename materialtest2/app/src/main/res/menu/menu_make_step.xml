@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.hwanik.materialtest.makeStep">
+    tools:context="com.example.hwanik.Yosee.makeStep">
     <item android:id="@+id/remove"
         android:orderInCategory="200"
         android:icon="@drawable/remove"

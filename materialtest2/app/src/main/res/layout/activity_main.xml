@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.hwanik.materialtest.MainActivity"
+        tools:context="com.example.hwanik.Yosee.MainActivity"
         android:orientation="vertical">
 
         <LinearLayout
@@ -69,6 +69,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:layout="@layout/fragment_navigation_drawer"
-        android:name="com.example.hwanik.materialtest.NavigationDrawerFragment"
+        android:name="com.example.hwanik.Yosee.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer"></fragment>
 </android.support.v4.widget.DrawerLayout>

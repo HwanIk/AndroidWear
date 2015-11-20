@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.hwanik.materialtest.myPage">
+    tools:context="com.example.hwanik.Yosee.myPage">
 
     <in.srain.cube.views.GridViewWithHeaderAndFooter
         android:id="@+id/myPage_lv"

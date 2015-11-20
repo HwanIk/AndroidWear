@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.hwanik.materialtest.categoryDialog">
+    tools:context="com.example.hwanik.Yosee.categoryDialog">
     <ListView
         android:id="@+id/choiceCategory"
         android:layout_width="match_parent"
